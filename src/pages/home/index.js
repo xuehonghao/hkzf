@@ -40,7 +40,7 @@ class index extends Component {
     // 添加监听
     this.props.history.listen((location) => {
       // 如果浏览器地址路径和state中的selectedTab值一致 不执行
-      if (this.state.selectedTab == location.pathname) {
+      if (this.state.selectedTab === location.pathname) {
         return;
       }
 

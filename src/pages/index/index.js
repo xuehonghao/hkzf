@@ -16,6 +16,7 @@ class index extends Component {
   state = {
     data: [],
     imgHeight: 176,
+    autoplay: false,
   };
   componentDidMount() {
     // 获取轮播图片
@@ -25,14 +26,21 @@ class index extends Component {
   getSwiper = async () => {
     let res = await getSwiper();
     console.log(res);
-    this.setState({
-      data: res.data,
-    });
+    this.setState(
+      {
+        data: res.data,
+      },
+      () => {
+        this.setState({
+          autoplay: true,
+        });
+      }
+    );
   };
   render() {
     return (
       // 轮播图
-      <Carousel className="swiper" autoplay={true} infinite>
+      <Carousel className="swiper" autoplay={this.state.autoplay} infinite>
         {this.state.data.map((val) => (
           <a
             key={new Date()}

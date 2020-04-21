@@ -15,10 +15,12 @@ dd {
   padding: 0;
 }
 
-ul,li {
+ul,
+li {
   list-style: none;
 }
 
 * {
+  touch-action: none;
   box-sizing: border-box;
 }
