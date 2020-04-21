@@ -33,36 +33,53 @@ const tabBarList = [
 
 class index extends Component {
   state = {
-    selectedTab: "/home",
+    selectedTab: this.props.location.pathname,
   };
 
+  componentDidMount() {
+    // 添加监听
+    this.props.history.listen((location) => {
+      // 如果浏览器地址路径和state中的selectedTab值一致 不执行
+      if (this.state.selectedTab == location.pathname) {
+        return;
+      }
+
+      // 值不一致
+      this.setState({
+        selectedTab: this.props.location.pathname,
+      });
+    });
+  }
+
   // 绘制TabBar
-  renderTabBar = () => (
-    <TabBar
-      unselectedTintColor="#949494"
-      tintColor="#33A3F4"
-      barTintColor="white"
-    >
-      {/* 遍历tabBarList 返回一个数组 */}
-      {tabBarList.map((item) => (
-        <TabBar.Item
-          title={item.title}
-          key={item.path}
-          icon={<i className={`iconfont ${item.icon}`} />}
-          selectedIcon={<i className={`iconfont ${item.icon}`} />}
-          selected={this.state.selectedTab === item.path}
-          onPress={() => {
-            // 更新 selectedTab
-            this.setState({
-              selectedTab: item.path,
-            });
-            // 跳转路由
-            this.props.history.push(item.path);
-          }}
-        ></TabBar.Item>
-      ))}
-    </TabBar>
-  );
+  renderTabBar = () => {
+    return (
+      <TabBar
+        unselectedTintColor="#949494"
+        tintColor="#33A3F4"
+        barTintColor="white"
+      >
+        {/* 遍历tabBarList 返回一个数组 */}
+        {tabBarList.map((item) => (
+          <TabBar.Item
+            title={item.title}
+            key={item.path}
+            icon={<i className={`iconfont ${item.icon}`} />}
+            selectedIcon={<i className={`iconfont ${item.icon}`} />}
+            selected={this.state.selectedTab === item.path}
+            onPress={() => {
+              // 跳转路由
+              this.props.history.push(item.path);
+              // 更新 selectedTab
+              this.setState({
+                selectedTab: item.path,
+              });
+            }}
+          ></TabBar.Item>
+        ))}
+      </TabBar>
+    );
+  };
 
   render() {
     return (
