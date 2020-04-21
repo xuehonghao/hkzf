@@ -39,6 +39,9 @@ class index extends Component {
   componentDidMount() {
     // 添加监听
     this.props.history.listen((location) => {
+      console.log("listen");
+      console.log(this.state.selectedTab, location.pathname);
+
       // 如果浏览器地址路径和state中的selectedTab值一致 不执行
       if (this.state.selectedTab === location.pathname) {
         return;
@@ -46,7 +49,7 @@ class index extends Component {
 
       // 值不一致
       this.setState({
-        selectedTab: this.props.location.pathname,
+        selectedTab: location.pathname,
       });
     });
   }
@@ -70,10 +73,10 @@ class index extends Component {
             onPress={() => {
               // 跳转路由
               this.props.history.push(item.path);
-              // 更新 selectedTab
-              this.setState({
-                selectedTab: item.path,
-              });
+              // 更新 selectedTab 这里不更新了，因为设置了监听
+              // this.setState({
+              //   selectedTab: item.path,
+              // });
             }}
           ></TabBar.Item>
         ))}

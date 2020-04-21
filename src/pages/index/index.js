@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
-// 引入走马灯（轮播图）组件
-import { Carousel } from "antd-mobile";
+// 引入组件
+import { Carousel, Flex } from "antd-mobile";
 
 // 引入当前组件样式
 import "./index.css";
@@ -11,6 +11,40 @@ import { BaseURL } from "../../utils/axios";
 
 // 引入接口
 import { getSwiper } from "../../utils/api/index";
+
+// 引入图片
+import Nav1 from "../../assets/images/nav-1.png";
+import Nav2 from "../../assets/images/nav-2.png";
+import Nav3 from "../../assets/images/nav-3.png";
+import Nav4 from "../../assets/images/nav-4.png";
+
+// nav导航栏数据
+const navs = [
+  {
+    id: 1,
+    img: Nav1,
+    title: "整租",
+    path: "/home/house",
+  },
+  {
+    id: 2,
+    img: Nav2,
+    title: "合租",
+    path: "/home/house",
+  },
+  {
+    id: 3,
+    img: Nav3,
+    title: "地图找房",
+    path: "/map",
+  },
+  {
+    id: 4,
+    img: Nav4,
+    title: "去出租",
+    path: "/rent/add",
+  },
+];
 
 class index extends Component {
   state = {
@@ -25,7 +59,6 @@ class index extends Component {
   // 获取轮播图片
   getSwiper = async () => {
     let res = await getSwiper();
-    console.log(res);
     this.setState(
       {
         data: res.data,
@@ -37,7 +70,9 @@ class index extends Component {
       }
     );
   };
-  render() {
+
+  // 轮播图组件渲染
+  renderSwiper = () => {
     return (
       // 轮播图
       <Carousel className="swiper" autoplay={this.state.autoplay} infinite>
@@ -64,6 +99,35 @@ class index extends Component {
           </a>
         ))}
       </Carousel>
+    );
+  };
+
+  // nav导航栏渲染
+  renderNav = () => {
+    return (
+      <Flex className="nav">
+        {navs.map((item) => (
+          <Flex.Item
+            onClick={() => this.props.history.push(item.path)}
+            key={item.id}
+          >
+            <img src={item.img} alt="" />
+            <p>{item.title}</p>
+          </Flex.Item>
+        ))}
+      </Flex>
+    );
+  };
+
+  render() {
+    return (
+      <div>
+        {/*  轮播图 */}
+        {this.renderSwiper()}
+
+        {/* nav导航栏 */}
+        {this.renderNav()}
+      </div>
     );
   }
 }
