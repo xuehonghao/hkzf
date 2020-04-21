@@ -14,7 +14,7 @@ import { getSwiper } from "../../utils/api/index";
 
 class index extends Component {
   state = {
-    data: ["1", "2", "3"],
+    data: [],
     imgHeight: 176,
   };
   componentDidMount() {
@@ -25,15 +25,18 @@ class index extends Component {
   getSwiper = async () => {
     let res = await getSwiper();
     console.log(res);
+    this.setState({
+      data: res.data,
+    });
   };
   render() {
     return (
       // 轮播图
-      <Carousel autoplay={true} infinite>
+      <Carousel className="swiper" autoplay={true} infinite>
         {this.state.data.map((val) => (
           <a
-            key={val}
-            href="http://www.alipay.com"
+            key={new Date()}
+            href=""
             style={{
               display: "inline-block",
               width: "100%",
@@ -41,9 +44,8 @@ class index extends Component {
             }}
           >
             <img
-              src={`https://zos.alipayobjects.com/rmsportal/${val}.png`}
+              src={`${BaseURL}${val.imgSrc}`}
               alt=""
-              style={{ width: "100%", verticalAlign: "top" }}
               onLoad={() => {
                 // 屏幕适配
                 // fire window resize event to change height
