@@ -6,32 +6,30 @@ import { Carousel } from "antd-mobile";
 // 引入当前组件样式
 import "./index.css";
 
+// 引入基地址
+import { BaseURL } from "../../utils/axios";
+
+// 引入接口
+import { getSwiper } from "../../utils/api/index";
+
 class index extends Component {
   state = {
     data: ["1", "2", "3"],
     imgHeight: 176,
   };
   componentDidMount() {
-    // simulate img loading
-    setTimeout(() => {
-      this.setState({
-        data: [
-          "AiyWuByWklrrUDlFignR",
-          "TekJlZRVCjLFexlOCuWn",
-          "IJOtIlfsYdTyaDTRVrLI",
-        ],
-      });
-    }, 100);
+    // 获取轮播图片
+    this.getSwiper();
   }
+  // 获取轮播图片
+  getSwiper = async () => {
+    let res = await getSwiper();
+    console.log(res);
+  };
   render() {
     return (
       // 轮播图
-      <Carousel
-        autoplay={true}
-        infinite
-        beforeChange={(from, to) => console.log(`slide from ${from} to ${to}`)}
-        afterChange={(index) => console.log("slide to", index)}
-      >
+      <Carousel autoplay={true} infinite>
         {this.state.data.map((val) => (
           <a
             key={val}
