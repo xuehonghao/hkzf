@@ -12,24 +12,8 @@ import { TabBar } from "antd-mobile";
 // 引入样式
 import "./index.css";
 
-// 定义常量 tabBarList
-const tabBarList = [
-  {
-    title: "首页",
-    icon: "icon-ind",
-    path: "/home",
-  },
-  {
-    title: "找房",
-    icon: "icon-findHouse",
-    path: "/home/house",
-  },
-  {
-    title: "我的",
-    icon: "icon-my",
-    path: "/home/profile",
-  },
-];
+// 引入常量
+import { tabBarList } from "../../utils/homeConfig";
 
 class index extends Component {
   state = {
@@ -39,9 +23,6 @@ class index extends Component {
   componentDidMount() {
     // 添加监听
     this.props.history.listen((location) => {
-      console.log("listen");
-      console.log(this.state.selectedTab, location.pathname);
-
       // 如果浏览器地址路径和state中的selectedTab值一致 不执行
       if (this.state.selectedTab === location.pathname) {
         return;
