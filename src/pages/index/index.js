@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 // 引入组件
-import { Carousel, Flex, Grid, WingBlank } from "antd-mobile";
+import { Carousel, Flex, Grid, WingBlank, SearchBar } from "antd-mobile";
 
 // 引入当前组件样式
 import "./index.scss";
@@ -20,6 +20,7 @@ class index extends Component {
     swipers: [], // 轮播图片
     groups: [], // 租房小组
     news: [], // 资讯
+    keyword: "", // 顶部输入框文字
     imgHeight: 176,
     autoplay: false,
   };
@@ -157,6 +158,28 @@ class index extends Component {
     );
   };
 
+  // 渲染顶部导航
+  renderTopNav = () => {
+    return (
+      <Flex justify="around" className="topNav">
+        <div className="searchBox">
+          <div className="city">
+            北京
+            <i className="iconfont icon-arrow" />
+          </div>
+          <SearchBar
+            value={this.state.keyword}
+            onChange={(v) => this.setState({ keyword: v })}
+            placeholder="请输入小区或地址"
+          />
+        </div>
+        <div className="map">
+          <i key="0" className="iconfont icon-map" />
+        </div>
+      </Flex>
+    );
+  };
+
   render() {
     return (
       <>
@@ -171,6 +194,9 @@ class index extends Component {
 
         {/* 最新资讯 */}
         {this.renderInfo()}
+
+        {/* 渲染顶部导航 */}
+        {this.renderTopNav()}
       </>
     );
   }
