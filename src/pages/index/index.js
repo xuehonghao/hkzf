@@ -24,65 +24,28 @@ class index extends Component {
     autoplay: false,
   };
   componentDidMount() {
-    // 获取轮播图片
-    this.getSwiper();
-
-    // 获取租房小组信息
-    this.getGroups();
-
-    // 获取租房小组信息
-    this.getNews();
+    // 加载数据
+    this.loadDatas();
   }
-  // 获取轮播图片data
-  getSwiper = async () => {
-    let res = await getSwiper();
-    if (res.status === 200) {
-      this.setState(
-        {
-          swipers: res.data,
-        },
-        () => {
-          this.setState({
-            autoplay: true,
-          });
-        }
-      );
-    }
+
+  // 加载数据
+  loadDatas = async () => {
+    const apis = [getSwiper(), getGroups(), getNews()];
+    let [swipers, group, news] = await Promise.all(apis);
+    this.setState(
+      {
+        swipers: swipers.data,
+        group: group.data,
+        news: news.data,
+      },
+      () => {
+        this.setState({
+          autoplay: true,
+        });
+      }
+    );
   };
 
-  // 获取租房小组信息
-  getGroups = async () => {
-    let res = await getGroups();
-    if (res.status === 200) {
-      this.setState(
-        {
-          groups: res.data,
-        },
-        () => {
-          this.setState({
-            autoplay: true,
-          });
-        }
-      );
-    }
-  };
-
-  // 获取租房小组信息
-  getNews = async () => {
-    let res = await getNews();
-    if (res.status === 200) {
-      this.setState(
-        {
-          news: res.data,
-        },
-        () => {
-          this.setState({
-            autoplay: true,
-          });
-        }
-      );
-    }
-  };
   // 轮播图组件渲染
   renderSwiper = () => {
     return (
