@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 // 引入组件
-import { Carousel, Flex } from "antd-mobile";
+import { Carousel, Flex, Grid } from "antd-mobile";
 
 // 引入当前组件样式
 import "./index.scss";
@@ -10,28 +10,49 @@ import "./index.scss";
 import { BaseURL } from "../../utils/axios";
 
 // 引入接口
-import { getSwiper } from "../../utils/api/index";
+import { getSwiper, getGroups } from "../../utils/api/index";
 
 // 引入常量
 import { navs } from "../../utils/homeConfig";
 
 class index extends Component {
   state = {
-    data: [],
+    swipers: [], // 轮播图片
+    groups: [], // 租房小组
     imgHeight: 176,
     autoplay: false,
   };
   componentDidMount() {
     // 获取轮播图片
     this.getSwiper();
+
+    // 获取租房小组信息
+    this.getGroups();
   }
-  // 获取轮播图片
+  // 获取轮播图片data
   getSwiper = async () => {
     let res = await getSwiper();
-    if (res.status == "200") {
+    if (res.status === 200) {
       this.setState(
         {
-          data: res.data,
+          swipers: res.data,
+        },
+        () => {
+          this.setState({
+            autoplay: true,
+          });
+        }
+      );
+    }
+  };
+
+  // 获取租房小组信息
+  getGroups = async () => {
+    let res = await getGroups();
+    if (res.status === 200) {
+      this.setState(
+        {
+          groups: res.data,
         },
         () => {
           this.setState({
@@ -47,7 +68,7 @@ class index extends Component {
     return (
       // 轮播图
       <Carousel className="swiper" autoplay={this.state.autoplay} infinite>
-        {this.state.data.map((val) => (
+        {this.state.swipers.map((val) => (
           <a
             key={new Date()}
             href="http://www.itheima.com"
@@ -90,14 +111,34 @@ class index extends Component {
     );
   };
 
-  // 租房小组渲染
+  // 租房小组 渲染
   renderGroup = () => {
     return (
       <div className="group">
+        {/* 标题 */}
         <Flex className="group-title" justify="between">
           <h3>租房小组</h3>
           <span>更多</span>
         </Flex>
+        {/* 宫格 */}
+        <Grid
+          data={this.state.groups}
+          columnNum={2}
+          square={false}
+          hasLine={false}
+          renderItem={(item) => {
+            return (
+              // item结构
+              <Flex className="grid-item" justify="between">
+                <div className="desc">
+                  <h3>{item.title}</h3>
+                  <p>{item.desc}</p>
+                </div>
+                <img src={`http://localhost:8080${item.imgSrc}`} alt="" />
+              </Flex>
+            );
+          }}
+        />
       </div>
     );
   };
