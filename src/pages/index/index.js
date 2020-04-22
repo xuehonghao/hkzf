@@ -4,7 +4,7 @@ import React, { Component } from "react";
 import { Carousel, Flex } from "antd-mobile";
 
 // 引入当前组件样式
-import "./index.css";
+import "./index.scss";
 
 // 引入基地址
 import { BaseURL } from "../../utils/axios";
@@ -28,16 +28,18 @@ class index extends Component {
   // 获取轮播图片
   getSwiper = async () => {
     let res = await getSwiper();
-    this.setState(
-      {
-        data: res.data,
-      },
-      () => {
-        this.setState({
-          autoplay: true,
-        });
-      }
-    );
+    if (res.status == "200") {
+      this.setState(
+        {
+          data: res.data,
+        },
+        () => {
+          this.setState({
+            autoplay: true,
+          });
+        }
+      );
+    }
   };
 
   // 轮播图组件渲染
@@ -48,7 +50,7 @@ class index extends Component {
         {this.state.data.map((val) => (
           <a
             key={new Date()}
-            href=""
+            href="http://www.itheima.com"
             style={{
               display: "inline-block",
               width: "100%",

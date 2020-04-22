@@ -6,7 +6,7 @@ import {
   Switch,
   Redirect,
 } from "react-router-dom";
-import "./App.css";
+import "./App.scss";
 
 import Home from "./pages/home";
 import CityList from "./pages/cityList";

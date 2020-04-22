@@ -10,7 +10,7 @@ import Profile from "../profile";
 import { TabBar } from "antd-mobile";
 
 // 引入样式
-import "./index.css";
+import "./index.scss";
 
 // 引入常量
 import { tabBarList } from "../../utils/homeConfig";
