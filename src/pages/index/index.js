@@ -90,6 +90,18 @@ class index extends Component {
     );
   };
 
+  // 租房小组渲染
+  renderGroup = () => {
+    return (
+      <div className="group">
+        <Flex className="group-title" justify="between">
+          <h3>租房小组</h3>
+          <span>更多</span>
+        </Flex>
+      </div>
+    );
+  };
+
   render() {
     return (
       <div>
@@ -98,6 +110,9 @@ class index extends Component {
 
         {/* nav导航栏 */}
         {this.renderNav()}
+
+        {/* 租房小组 */}
+        {this.renderGroup()}
       </div>
     );
   }
