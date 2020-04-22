@@ -21,6 +21,7 @@ li {
 }
 
 * {
-  touch-action: none;
+  // touch-action: none;
+  touch-action: pan-y;
   box-sizing: border-box;
 }

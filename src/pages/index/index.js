@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 // 引入组件
-import { Carousel, Flex, Grid } from "antd-mobile";
+import { Carousel, Flex, Grid, WingBlank } from "antd-mobile";
 
 // 引入当前组件样式
 import "./index.scss";
@@ -10,7 +10,7 @@ import "./index.scss";
 import { BaseURL } from "../../utils/axios";
 
 // 引入接口
-import { getSwiper, getGroups } from "../../utils/api/index";
+import { getSwiper, getGroups, getNews } from "../../utils/api/index";
 
 // 引入常量
 import { navs } from "../../utils/homeConfig";
@@ -19,6 +19,7 @@ class index extends Component {
   state = {
     swipers: [], // 轮播图片
     groups: [], // 租房小组
+    news: [], // 资讯
     imgHeight: 176,
     autoplay: false,
   };
@@ -28,6 +29,9 @@ class index extends Component {
 
     // 获取租房小组信息
     this.getGroups();
+
+    // 获取租房小组信息
+    this.getNews();
   }
   // 获取轮播图片data
   getSwiper = async () => {
@@ -63,6 +67,22 @@ class index extends Component {
     }
   };
 
+  // 获取租房小组信息
+  getNews = async () => {
+    let res = await getNews();
+    if (res.status === 200) {
+      this.setState(
+        {
+          news: res.data,
+        },
+        () => {
+          this.setState({
+            autoplay: true,
+          });
+        }
+      );
+    }
+  };
   // 轮播图组件渲染
   renderSwiper = () => {
     return (
@@ -143,9 +163,40 @@ class index extends Component {
     );
   };
 
+  // 最新资讯渲染
+  renderInfo = () => {
+    // 渲染最新资讯
+    let renderNews = () => {
+      return this.state.news.map((item) => (
+        <div className="news-item" key={item.id}>
+          <div className="imgwrap">
+            <img
+              className="img"
+              src={`http://localhost:8080${item.imgSrc}`}
+              alt=""
+            />
+          </div>
+          <Flex className="content" direction="column" justify="between">
+            <h3 className="title">{item.title}</h3>
+            <Flex className="info" justify="between">
+              <span>{item.from}</span>
+              <span>{item.date}</span>
+            </Flex>
+          </Flex>
+        </div>
+      ));
+    };
+    return (
+      <div className="news">
+        <h3 className="group-title">最新资讯</h3>
+        <WingBlank size="md">{renderNews()}</WingBlank>
+      </div>
+    );
+  };
+
   render() {
     return (
-      <div>
+      <>
         {/*  轮播图 */}
         {this.renderSwiper()}
 
@@ -154,7 +205,10 @@ class index extends Component {
 
         {/* 租房小组 */}
         {this.renderGroup()}
-      </div>
+
+        {/* 最新资讯 */}
+        {this.renderInfo()}
+      </>
     );
   }
 }
