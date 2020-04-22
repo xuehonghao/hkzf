@@ -134,7 +134,7 @@ class index extends Component {
                   <h3>{item.title}</h3>
                   <p>{item.desc}</p>
                 </div>
-                <img src={`http://localhost:8080${item.imgSrc}`} alt="" />
+                <img src={`${BaseURL}${item.imgSrc}`} alt="" />
               </Flex>
             );
           }}

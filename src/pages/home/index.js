@@ -22,7 +22,7 @@ class index extends Component {
 
   componentDidMount() {
     // 添加监听
-    this.props.history.listen((location) => {
+    this.unListen = this.props.history.listen((location) => {
       // 如果浏览器地址路径和state中的selectedTab值一致 不执行
       if (this.state.selectedTab === location.pathname) {
         return;
@@ -33,6 +33,11 @@ class index extends Component {
         selectedTab: location.pathname,
       });
     });
+  }
+
+  componentWillUnmount() {
+    // 销毁监听
+    this.unListen();
   }
 
   // 绘制TabBar
