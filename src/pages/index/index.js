@@ -36,7 +36,7 @@ class index extends Component {
     this.setState(
       {
         swipers: swipers.data,
-        group: group.data,
+        groups: group.data,
         news: news.data,
       },
       () => {
