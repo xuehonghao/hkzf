@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+import { NavBar, Icon } from "antd-mobile";
+
 class index extends Component {
   componentDidMount() {
     // 初始化地图
@@ -14,7 +16,20 @@ class index extends Component {
     map.centerAndZoom(point, 15);
   };
   render() {
-    return <div id="container"></div>;
+    return (
+      <>
+        <NavBar
+          mode="light"
+          icon={<Icon type="left" />}
+          onLeftClick={() => {
+            this.props.history.goBack();
+          }}
+        >
+          地图找房
+        </NavBar>
+        <div id="container"></div>
+      </>
+    );
   }
 }
 
