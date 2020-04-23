@@ -10,7 +10,8 @@ import "./index.scss";
 import { BaseURL } from "../../utils/axios";
 
 // 引入接口
-import { getSwiper, getGroups, getNews } from "../../utils/api/index";
+import { getSwiper, getGroups, getNews } from "../../utils/api/home/index";
+import { getCurrCity } from "../../utils/currentCity";
 
 // 引入常量
 import { navs } from "../../utils/homeConfig";
@@ -20,6 +21,7 @@ class index extends Component {
     swipers: [], // 轮播图片
     groups: [], // 租房小组
     news: [], // 资讯
+    currCity: {}, // 当前城市
     keyword: "", // 顶部输入框文字
     imgHeight: 176,
     autoplay: false,
@@ -27,6 +29,7 @@ class index extends Component {
   componentDidMount() {
     // 加载数据
     this.loadDatas();
+    this.getCurrCity();
   }
 
   // 加载数据
@@ -45,6 +48,14 @@ class index extends Component {
         });
       }
     );
+  };
+
+  // 获取当前城市信息
+  getCurrCity = async () => {
+    let data = await getCurrCity();
+    this.setState({
+      currCity: data,
+    });
   };
 
   // 轮播图组件渲染
@@ -159,8 +170,11 @@ class index extends Component {
     return (
       <Flex justify="around" className="topNav">
         <div className="searchBox">
-          <div className="city">
-            北京
+          <div
+            className="city"
+            onClick={() => this.props.history.push("/cityList")}
+          >
+            {this.state.currCity.label}
             <i className="iconfont icon-arrow" />
           </div>
           <SearchBar

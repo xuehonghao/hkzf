@@ -2,6 +2,8 @@ import React, { Component } from "react";
 
 import { NavBar, Icon } from "antd-mobile";
 
+import "./index.scss";
+
 class index extends Component {
   componentDidMount() {
     // 初始化地图
