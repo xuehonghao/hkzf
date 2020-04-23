@@ -134,11 +134,7 @@ class index extends Component {
       return this.state.news.map((item) => (
         <div className="news-item" key={item.id}>
           <div className="imgwrap">
-            <img
-              className="img"
-              src={`http://localhost:8080${item.imgSrc}`}
-              alt=""
-            />
+            <img className="img" src={`${BaseURL}${item.imgSrc}`} alt="" />
           </div>
           <Flex className="content" direction="column" justify="between">
             <h3 className="title">{item.title}</h3>

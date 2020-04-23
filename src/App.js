@@ -11,6 +11,7 @@ import "./App.scss";
 import Home from "./pages/home";
 import CityList from "./pages/cityList";
 import Fn404 from "./pages/fn404";
+import Map from "./pages/map";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Switch>
           <Redirect from="/" exact to="/home" />
           <Route path="/home" component={Home} />
+          <Route path="/map" component={Map} />
           <Route path="/cityList" component={CityList} />
           <Route component={Fn404} />
         </Switch>
