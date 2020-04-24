@@ -10,6 +10,7 @@ const setLocal = (data) => {
 // 获取
 const getLocal = () => {
   let currCity = localStorage.getItem(CURR_CITY);
+  if (!currCity) return {};
   return JSON.parse(currCity);
 };
 
@@ -49,7 +50,7 @@ const getCurrCity = async () => {
       const { status, data } = await getCityInfo(getCurrCityByMap);
       if (status === 200) {
         // 存到本地
-        setLocal(CURR_CITY, data);
+        setLocal(data);
         // 传递数据
         resove(data);
       } else {

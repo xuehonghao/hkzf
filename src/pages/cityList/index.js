@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-
 import { getCities, getHotCity } from "../../utils/api/area";
-
 import { getCurrCity } from "../../utils/currentCity";
 
 class index extends Component {
@@ -43,7 +41,7 @@ class index extends Component {
   formatCities = (res) => {
     let cityList = {},
       cityIndex;
-    if (res.status != 200) {
+    if (res.status !== 200) {
       return { cityList, cityIndex };
     }
 
