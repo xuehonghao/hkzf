@@ -2,7 +2,7 @@ import axios from "axios";
 import { Toast } from "antd-mobile";
 
 // 基地址
-const BaseURL = "http://localhost:8080";
+const BaseURL = "https://api-haoke-web.itheima.net";
 
 const api = axios.create({
   baseURL: BaseURL,

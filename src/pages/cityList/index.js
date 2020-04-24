@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { getCities, getHotCity } from "../../utils/api/area";
 import { getCurrCity } from "../../utils/currentCity";
+import "react-virtualized/styles.css";
+import { List, AutoSizer } from "react-virtualized";
+import { NavBar, Icon } from "antd-mobile";
+import "./index.scss";
 
 class index extends Component {
   state = {
@@ -63,8 +67,70 @@ class index extends Component {
     return { cityList, cityIndex };
   };
 
+  // 格式化字母
+  formatLetter(letter) {
+    switch (letter) {
+      case "hot":
+        return "热门城市";
+      case "#":
+        return "当前城市";
+      default:
+        return letter.toUpperCase();
+    }
+  }
+
+  // 动态获取行高
+  getRowheight = ({ index }) => {
+    const { cityIndex, cityList } = this.state;
+    let letter = cityIndex[index];
+    // title高度+城市高度*城市个数
+    return 36 + 50 * cityList[letter].length;
+  };
+
+  rowRenderer = ({
+    key, // Unique key within array of rows
+    index, // Index of row within collection
+    isScrolling, // The List is currently being scrolled
+    isVisible, // This row is visible within the List (eg it is not an overscanned row)
+    style, // Style object to be applied to row (to position it)
+  }) => {
+    return (
+      <div key={key} style={style} className="city-item">
+        <div className="title">
+          {this.formatLetter(this.state.cityIndex[index])}
+        </div>
+        {this.state.cityList[this.state.cityIndex[index]].map((item) => {
+          return <div className="name">{item.label}</div>;
+        })}
+      </div>
+    );
+  };
+
   render() {
-    return <div>city</div>;
+    return (
+      <div className="cityList">
+        {/* 导航返回 */}
+        <NavBar
+          mode="dark"
+          icon={<Icon type="left" />}
+          onLeftClick={() => this.props.history.goBack()}
+        >
+          城市选择
+        </NavBar>
+        {/* 列表 */}
+        <AutoSizer>
+          {({ height, width }) => (
+            <List
+              width={width}
+              height={height}
+              rowCount={this.state.cityIndex.length}
+              rowHeight={this.getRowheight}
+              rowRenderer={this.rowRenderer}
+            />
+          )}
+        </AutoSizer>
+      </div>
+    );
   }
 }
 

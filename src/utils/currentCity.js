@@ -38,7 +38,6 @@ const getCurrCity = async () => {
 
   // 定位
   const currCityByMap = await getCurrCityByMap();
-
   // 内存中没有 || 内存中有键没值 || 定位和内存中的值不匹配
   if (
     !currCityByLocal ||
@@ -47,7 +46,7 @@ const getCurrCity = async () => {
   ) {
     return new Promise(async (resove, reject) => {
       // 调用接口获取城市详细信息
-      const { status, data } = await getCityInfo(getCurrCityByMap);
+      const { status, data } = await getCityInfo(currCityByMap);
       if (status === 200) {
         // 存到本地
         setLocal(data);

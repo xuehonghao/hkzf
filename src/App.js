@@ -1,7 +1,7 @@
 import React from "react";
 // import logo from './logo.svg';
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Route,
   Switch,
   Redirect,
