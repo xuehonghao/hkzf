@@ -109,7 +109,6 @@ class index extends Component {
           key={item}
           className="city-index-item"
           onClick={() => {
-            console.log(this.listRef);
             // 调用
             this.listRef.scrollToRow(index);
           }}
@@ -125,8 +124,6 @@ class index extends Component {
   // 滚动列表触发（每次重新渲染列表后都会触发）
   onRowsRendered = ({ startIndex }) => {
     if (this.state.activeIndex !== startIndex) {
-      console.log(startIndex);
-
       this.setState({
         activeIndex: startIndex,
       });
