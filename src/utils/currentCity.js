@@ -38,12 +38,14 @@ const getCurrCity = async () => {
 
   // 定位
   const currCityByMap = await getCurrCityByMap();
-  // 内存中没有 || 内存中有键没值 || 定位和内存中的值不匹配
-  if (
-    !currCityByLocal ||
-    !currCityByLocal.label ||
-    !currCityByMap.includes(currCityByLocal.label)
-  ) {
+  // 内存中没有 || 内存中有键没值 || 定位和内存中的值不匹配  这样判断，手动切换城市就会有bug
+  // if (
+  //   !currCityByLocal ||
+  //   !currCityByLocal.label ||
+  //   !currCityByMap.includes(currCityByLocal.label)
+  // ) {
+
+  if (!currCityByLocal) {
     return new Promise(async (resove, reject) => {
       // 调用接口获取城市详细信息
       const { status, data } = await getCityInfo(currCityByMap);
@@ -62,4 +64,4 @@ const getCurrCity = async () => {
   }
 };
 
-export { getCurrCity };
+export { getCurrCity, setLocal, CURR_CITY };

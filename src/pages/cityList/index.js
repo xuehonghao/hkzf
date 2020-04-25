@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { getCities, getHotCity } from "../../utils/api/area";
-import { getCurrCity } from "../../utils/currentCity";
+import { getCurrCity, setLocal, CURR_CITY } from "../../utils/currentCity";
 import "react-virtualized/styles.css";
 import { List, AutoSizer } from "react-virtualized";
-import { NavBar, Icon } from "antd-mobile";
+import { NavBar, Icon, Toast } from "antd-mobile";
 import "./index.scss";
 
 class index extends Component {
@@ -87,6 +87,18 @@ class index extends Component {
     return 36 + 50 * cityList[letter].length;
   };
 
+  // 城市列表点击事件
+  // 切换城市
+  changeCity = (city) => {
+    const hasData = ["北京", "上海", "广州", "深圳"];
+    if (hasData.includes(city.label)) {
+      setLocal(city);
+      this.props.history.goBack();
+    } else {
+      Toast.info("该城市暂无房源数据！", 2);
+    }
+  };
+
   rowRenderer = ({
     key, // Unique key within array of rows
     index, // Index of row within collection
@@ -99,8 +111,18 @@ class index extends Component {
         <div className="title">
           {this.formatLetter(this.state.cityIndex[index])}
         </div>
-        {this.state.cityList[this.state.cityIndex[index]].map((item) => {
-          return <div className="name">{item.label}</div>;
+        {this.state.cityList[this.state.cityIndex[index]].map((item, k) => {
+          return (
+            <div
+              className="name"
+              onClick={() => {
+                this.changeCity(item);
+              }}
+              key={k}
+            >
+              {item.label}
+            </div>
+          );
         })}
       </div>
     );
