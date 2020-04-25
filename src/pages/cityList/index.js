@@ -10,6 +10,7 @@ class index extends Component {
   state = {
     cityIndex: [],
     cityList: {},
+    activeIndex: 0,
   };
   componentDidMount() {
     this.loadData();
@@ -67,13 +68,13 @@ class index extends Component {
     return { cityList, cityIndex };
   };
 
-  // 格式化字母
-  formatLetter(letter) {
+  // 格式化字母(处理热门城市和当前城市)
+  formatLetter(letter, first) {
     switch (letter) {
       case "hot":
-        return "热门城市";
+        return first ? "热" : "热门城市";
       case "#":
-        return "当前城市";
+        return first ? "当" : "当前城市";
       default:
         return letter.toUpperCase();
     }
@@ -96,6 +97,39 @@ class index extends Component {
       this.props.history.goBack();
     } else {
       Toast.info("该城市暂无房源数据！", 2);
+    }
+  };
+
+  // 渲染右侧索引列表
+  renderCityIndex = () => {
+    const { cityIndex, activeIndex } = this.state;
+    return cityIndex.map((item, index) => {
+      return (
+        <li
+          key={item}
+          className="city-index-item"
+          onClick={() => {
+            console.log(this.listRef);
+            // 调用
+            this.listRef.scrollToRow(index);
+          }}
+        >
+          <span className={activeIndex === index ? "index-active" : ""}>
+            {this.formatLetter(item, true)}
+          </span>
+        </li>
+      );
+    });
+  };
+
+  // 滚动列表触发（每次重新渲染列表后都会触发）
+  onRowsRendered = ({ startIndex }) => {
+    if (this.state.activeIndex !== startIndex) {
+      console.log(startIndex);
+
+      this.setState({
+        activeIndex: startIndex,
+      });
     }
   };
 
@@ -148,9 +182,16 @@ class index extends Component {
               rowCount={this.state.cityIndex.length}
               rowHeight={this.getRowheight}
               rowRenderer={this.rowRenderer}
+              scrollToAlignment="start"
+              onRowsRendered={this.onRowsRendered}
+              ref={(map) => {
+                this.listRef = map;
+              }}
             />
           )}
         </AutoSizer>
+        {/* 右侧索引列表 */}
+        <ul className="city-index">{this.renderCityIndex()}</ul>
       </div>
     );
   }
