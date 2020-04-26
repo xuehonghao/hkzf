@@ -6,6 +6,8 @@ import FilterMore from "../FilterMore";
 
 import styles from "./index.module.css";
 
+import { getHousesCondition } from "../../../../utils/api/house";
+import { getCurrCity } from "../../../../utils/currentCity";
 // 标题高亮状态(默认值)
 const titleSelectedStatus = {
   area: false,
@@ -20,6 +22,20 @@ export default class Filter extends Component {
     titleSelectedStatus: { ...titleSelectedStatus },
     // 打开当前的type状态
     openType: "",
+  };
+
+  componentDidMount() {
+    this.getFilterData();
+  }
+
+  // 获取过滤条件
+  getFilterData = async () => {
+    // 获取当前城市id
+    const { value } = await getCurrCity();
+    const res = await getHousesCondition(value);
+
+    // 把组件筛选数据存放到组件实例的成员属性上
+    this.filterData = res.data;
   };
 
   // 判断是否为前三个菜单
