@@ -37,11 +37,27 @@ export default class Filter extends Component {
     });
   };
 
+  // 关闭前三个筛选器内容和遮罩层
+  onCancel = () => {
+    this.setState({
+      openType: "",
+    });
+  };
+
+  // 确定选择过滤条件
+  onOk = () => {
+    this.setState({
+      openType: "",
+    });
+  };
+
   render() {
     return (
       <div className={styles.root}>
         {/* 前三个菜单的遮罩层 */}
-        {this.isShow() ? <div className={styles.mask} /> : null}
+        {this.isShow() ? (
+          <div className={styles.mask} onClick={this.onCancel} />
+        ) : null}
 
         <div className={styles.content}>
           {/* 标题栏 */}
@@ -51,7 +67,9 @@ export default class Filter extends Component {
           />
 
           {/* 前三个菜单对应的内容： */}
-          {this.isShow() ? <FilterPicker /> : null}
+          {this.isShow() ? (
+            <FilterPicker onCancel={this.onCancel} onOk={this.onOk} />
+          ) : null}
 
           {/* 最后一个菜单对应的内容： */}
           {/* <FilterMore /> */}
