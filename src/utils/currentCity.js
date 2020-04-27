@@ -3,20 +3,20 @@ import { getCityInfo } from "./api/area";
 const CURR_CITY = "currCity";
 
 // 设置
-const setLocal = (data) => {
-  localStorage.setItem(CURR_CITY, JSON.stringify(data));
+const setSession = (data) => {
+  sessionStorage.setItem(CURR_CITY, JSON.stringify(data));
 };
 
 // 获取
-const getLocal = () => {
-  let currCity = localStorage.getItem(CURR_CITY);
-  if (!currCity) return {};
+const getSession = () => {
+  let currCity = sessionStorage.getItem(CURR_CITY);
+  if (!currCity) return null;
   return JSON.parse(currCity);
 };
 
 // 删除
-const removeLocal = () => {
-  localStorage.removeItem(CURR_CITY);
+const removeSession = () => {
+  sessionStorage.removeItem(CURR_CITY);
 };
 
 // 百度获取
@@ -34,7 +34,7 @@ const getCurrCityByMap = () => {
 // 获取当前城市信息
 const getCurrCity = async () => {
   // 内存中找
-  const currCityByLocal = getLocal();
+  const currCityByLocal = getSession();
 
   // 定位
   const currCityByMap = await getCurrCityByMap();
@@ -51,7 +51,7 @@ const getCurrCity = async () => {
       const { status, data } = await getCityInfo(currCityByMap);
       if (status === 200) {
         // 存到本地
-        setLocal(data);
+        setSession(data);
         // 传递数据
         resove(data);
       } else {
@@ -64,4 +64,4 @@ const getCurrCity = async () => {
   }
 };
 
-export { getCurrCity, setLocal, CURR_CITY };
+export { getCurrCity, setSession, CURR_CITY };

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { getCities, getHotCity } from "../../utils/api/area";
-import { getCurrCity, setLocal, CURR_CITY } from "../../utils/currentCity";
+import { getCurrCity, setSession, CURR_CITY } from "../../utils/currentCity";
 import "react-virtualized/styles.css";
 import { List, AutoSizer } from "react-virtualized";
 import { NavBar, Icon, Toast } from "antd-mobile";
@@ -93,7 +93,7 @@ class index extends Component {
   changeCity = (city) => {
     const hasData = ["北京", "上海", "广州", "深圳"];
     if (hasData.includes(city.label)) {
-      setLocal(city);
+      setSession(city);
       this.props.history.goBack();
     } else {
       Toast.info("该城市暂无房源数据！", 2);
