@@ -86,6 +86,28 @@ export default class Filter extends Component {
     });
   };
 
+  // 处理筛选器选中后有无条件的高亮状态
+  handlerSel = () => {
+    // 创建新的标题选中状态的对象
+    const newTitleSelectedStatus = {};
+    // 遍历selectedValues
+    Object.keys(this.selectedValues).forEach((key) => {
+      // 获取当前过滤器选中值 数组
+      let cur = this.selectedValues[key];
+      // 判断数组的值
+      if (key === "area" && (cur[1] !== "null" || cur[0] === "subway")) {
+        newTitleSelectedStatus[key] = true;
+      } else if (key === "mode" && cur[0] !== "null") {
+        newTitleSelectedStatus[key] = true;
+      } else if (key === "price" && cur[0] !== "null") {
+        newTitleSelectedStatus[key] = true;
+      } else {
+        newTitleSelectedStatus[key] = false;
+      }
+    });
+    return newTitleSelectedStatus;
+  };
+
   // 渲染选择器 前三个菜单对应的内容
   renderFilterPicker = () => {
     // 获取当前筛选类型
@@ -127,27 +149,26 @@ export default class Filter extends Component {
     }
   };
 
-  // 处理筛选器选中后有无条件的高亮状态
-  handlerSel = () => {
-    // 创建新的标题选中状态的对象
-    const newTitleSelectedStatus = {};
-    // 遍历selectedValues
-    Object.keys(this.selectedValues).forEach((key) => {
-      // 获取当前过滤器选中值 数组
-      let cur = this.selectedValues[key];
-      // 判断数组的值
-      if (key === "area" && (cur[1] !== "null" || cur[0] === "subway")) {
-        newTitleSelectedStatus[key] = true;
-      } else if (key === "mode" && cur[0] !== "null") {
-        newTitleSelectedStatus[key] = true;
-      } else if (key === "price" && cur[0] !== "null") {
-        newTitleSelectedStatus[key] = true;
-      } else {
-        newTitleSelectedStatus[key] = false;
-      }
-    });
-    return newTitleSelectedStatus;
+  // 渲染第四个菜单--筛选
+  renderFilterMore = () => {
+    const { openType } = this.state;
+    if (openType === "more") {
+      // 传递筛选器数据
+      const { roomType, oriented, floor, characteristic } = this.filterData;
+      const data = { roomType, oriented, floor, characteristic };
+      return (
+        <FilterMore
+          data={data}
+          value={this.selectedValues[openType]}
+          onOk={this.onOk}
+          onCancel={this.onCancel}
+        />
+      );
+    } else {
+      return null;
+    }
   };
+
   render() {
     return (
       <div className={styles.root}>
@@ -167,7 +188,7 @@ export default class Filter extends Component {
           {this.isShow() ? this.renderFilterPicker() : null}
 
           {/* 最后一个菜单对应的内容： */}
-          {/* <FilterMore /> */}
+          {this.renderFilterMore()}
         </div>
       </div>
     );
