@@ -16,6 +16,14 @@ const titleSelectedStatus = {
   more: false,
 };
 
+// 选中数据维护
+const selectedValues = {
+  area: ["area", "null"],
+  mode: ["null"],
+  price: ["null"],
+  more: [],
+};
+
 export default class Filter extends Component {
   // 设置状态
   state = {
@@ -26,6 +34,8 @@ export default class Filter extends Component {
 
   componentDidMount() {
     this.getFilterData();
+    // 初始化：存储到实例属性上
+    this.selectedValues = { ...selectedValues };
   }
 
   // 获取过滤条件
@@ -61,8 +71,10 @@ export default class Filter extends Component {
   };
 
   // 确定选择过滤条件 获取选中的筛选条件
-  onOk = (val) => {
-    console.log("选中值：", val);
+  onOk = (value) => {
+    const { openType } = this.state;
+    // 存储当前选中筛选数据
+    this.selectedValues[openType] = value;
     this.setState({
       openType: "",
     });
@@ -96,6 +108,7 @@ export default class Filter extends Component {
 
       return (
         <FilterPicker
+          value={this.selectedValues[openType]}
           data={data}
           col={col}
           onCancel={this.onCancel}

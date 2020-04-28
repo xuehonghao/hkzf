@@ -6,7 +6,7 @@ import FilterFooter from "../../../../components/FilterFooter";
 
 export default class FilterPicker extends Component {
   state = {
-    value: "",
+    value: this.props.value,
   };
   render() {
     const { onCancel, onOk, data, col } = this.props;
