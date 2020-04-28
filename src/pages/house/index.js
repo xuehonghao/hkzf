@@ -7,15 +7,17 @@ import Filter from "./components/Filter";
 import styles from "./index.module.css";
 import { getCurrCity } from "../../utils/currentCity";
 import { getHouses } from "../../utils/api/house";
-import Axios from "axios";
+import { BaseURL } from "../../utils/axios";
 
 import "react-virtualized/styles.css";
 import { List, AutoSizer } from "react-virtualized";
 
+import HouseItem from "../../components/HouseItem";
+
 export default class HouseList extends React.Component {
   state = {
     // 房屋列表数据
-    list: [1, 2, 3],
+    list: [],
   };
 
   // 设置回调，接收数据
@@ -36,7 +38,10 @@ export default class HouseList extends React.Component {
   // 获取房屋列表
   getHouseList = async () => {
     const res = await getHouses(this.cityId, this.filters, 1, 20);
-    console.log(res);
+    this.setState({
+      list: [...res.data.list],
+    });
+    // console.log(res);
   };
 
   // 渲染列表项的方法
@@ -47,10 +52,33 @@ export default class HouseList extends React.Component {
     isVisible, // This row is visible within the List (eg it is not an overscanned row)
     style, // Style object to be applied to row (to position it)
   }) => {
+    const { list } = this.state;
+    const item = list[index];
+    // 处理图片地址
+    item.src = BaseURL + item.houseImg;
+    return <HouseItem {...item} key={key} style={style} />;
+  };
+
+  // 渲染列表
+  renderHouseList = () => {
+    const { list } = this.state;
     return (
-      <div key={key} style={style} className="">
-        {index}
-      </div>
+      <AutoSizer>
+        {({ height, width }) => {
+          console.log(height, width);
+
+          return (
+            <List
+              className={styles.houseList}
+              height={height}
+              rowCount={list.length}
+              rowHeight={130}
+              rowRenderer={this.renderHouseItem}
+              width={width}
+            />
+          );
+        }}
+      </AutoSizer>
     );
   };
 
@@ -60,19 +88,7 @@ export default class HouseList extends React.Component {
         {/* 条件筛选栏 */}
         <Filter onFilter={this.onFilter} />
         {/* 列表 */}
-        <AutoSizer>
-          {({ height, width }) => {
-            return (
-              <List
-                height={height}
-                rowCount={this.state.list.length}
-                rowHeight={130}
-                rowRenderer={this.renderHouseItem}
-                width={width}
-              />
-            );
-          }}
-        </AutoSizer>
+        {this.renderHouseList()}
       </div>
     );
   }

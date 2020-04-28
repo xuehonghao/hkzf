@@ -72,7 +72,7 @@ class index extends Component {
 
   render() {
     return (
-      <div>
+      <div className="home">
         <Route exact path="/home" component={Index} />
         <Route path="/home/house" component={House} />
         <Route path="/home/profile" component={Profile} />
