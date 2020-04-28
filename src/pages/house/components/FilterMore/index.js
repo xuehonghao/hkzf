@@ -6,16 +6,38 @@ import styles from "./index.module.css";
 
 export default class FilterMore extends Component {
   state = {
-    value: "",
+    selected: this.props.value,
+  };
+
+  // 获取选中数据
+  handlerSel = (val) => {
+    const { selected } = this.state;
+    const newSelected = [...selected];
+    // 没有该值，新增（高亮显示）
+    let index = newSelected.indexOf(val);
+    if (index < 0) {
+      newSelected.push(val);
+    } else {
+      // 有，删除（取消高亮）
+      newSelected.splice(index, 1);
+    }
+    this.setState({
+      selected: newSelected,
+    });
   };
 
   // 渲染标签
   renderFilters(data) {
+    const { selected } = this.state;
     // 高亮类名： styles.tagActive
     return data.map((item) => (
       <span
+        onClick={() => this.handlerSel(item.value)}
         key={item.value}
-        className={[styles.tag, styles.tagActive].join(" ")}
+        className={[
+          styles.tag,
+          selected.includes(item.value) ? styles.tagActive : "",
+        ].join(" ")}
       >
         {item.label}
       </span>
@@ -60,7 +82,7 @@ export default class FilterMore extends Component {
           className={styles.footer}
           onCancel={onCancel}
           onOk={() => {
-            onOk(this.state.value);
+            onOk(this.state.selected);
           }}
         />
       </div>

@@ -101,6 +101,9 @@ export default class Filter extends Component {
         newTitleSelectedStatus[key] = true;
       } else if (key === "price" && cur[0] !== "null") {
         newTitleSelectedStatus[key] = true;
+      } else if (key === "more" && cur.length !== 0) {
+        // 更多选择项 FilterMore 组件情况
+        newTitleSelectedStatus[key] = true;
       } else {
         newTitleSelectedStatus[key] = false;
       }
