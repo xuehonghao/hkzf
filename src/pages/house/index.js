@@ -21,6 +21,8 @@ export default class HouseList extends React.Component {
     // 获取城市ID
     const { value } = await getCurrCity();
     this.cityId = value;
+    // 默认加载一次
+    this.getHouseList();
   }
 
   // 获取房屋列表
