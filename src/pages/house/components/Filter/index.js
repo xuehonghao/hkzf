@@ -60,8 +60,9 @@ export default class Filter extends Component {
     });
   };
 
-  // 确定选择过滤条件
-  onOk = () => {
+  // 确定选择过滤条件 获取选中的筛选条件
+  onOk = (val) => {
+    console.log("选中值：", val);
     this.setState({
       openType: "",
     });
