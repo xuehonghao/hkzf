@@ -67,6 +67,45 @@ export default class Filter extends Component {
     });
   };
 
+  // 渲染选择器 前三个菜单对应的内容
+  renderFilterPicker = () => {
+    // 获取当前筛选类型
+    const { openType } = this.state;
+    // 判断是否是前三个菜单
+    if (openType === "area" || openType === "mode" || openType === "price") {
+      // 获取筛选条件
+      const { area, subway, rentType, price } = this.filterData;
+      let data,
+        col = 1; // 控制PickerView的列数
+
+      switch (openType) {
+        case "area": // 区域
+          data = [area, subway];
+          col = 3;
+          break;
+        case "mode": // 方式
+          data = rentType;
+          break;
+        case "price": // 租金
+          data = price;
+          break;
+        default:
+          break;
+      }
+
+      return (
+        <FilterPicker
+          data={data}
+          col={col}
+          onCancel={this.onCancel}
+          onOk={this.onOk}
+        />
+      );
+    } else {
+      return null;
+    }
+  };
+
   render() {
     return (
       <div className={styles.root}>
@@ -83,9 +122,7 @@ export default class Filter extends Component {
           />
 
           {/* 前三个菜单对应的内容： */}
-          {this.isShow() ? (
-            <FilterPicker onCancel={this.onCancel} onOk={this.onOk} />
-          ) : null}
+          {this.isShow() ? this.renderFilterPicker() : null}
 
           {/* 最后一个菜单对应的内容： */}
           {/* <FilterMore /> */}
