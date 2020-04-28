@@ -88,6 +88,8 @@ export default class Filter extends Component {
       () => {
         // 处理筛选条件数据
         const filters = this.handlerFilters(this.selectedValues);
+        // 将格式化的数据传给列表
+        this.props.onFilter(filters);
       }
     );
   };
@@ -142,7 +144,7 @@ export default class Filter extends Component {
     filters.price = price[0];
     // more
     filters.more = more.join(",");
-    console.log("filters:", filters);
+    // console.log("filters:", filters);
     return filters;
   };
 
