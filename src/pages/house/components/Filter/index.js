@@ -108,6 +108,7 @@ export default class Filter extends Component {
 
       return (
         <FilterPicker
+          key={openType}
           value={this.selectedValues[openType]}
           data={data}
           col={col}
