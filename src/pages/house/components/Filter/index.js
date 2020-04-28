@@ -80,10 +80,16 @@ export default class Filter extends Component {
     this.selectedValues[openType] = value;
     // 处理高亮
     let newVal = this.handlerSel();
-    this.setState({
-      openType: "",
-      titleSelectedStatus: newVal,
-    });
+    this.setState(
+      {
+        openType: "",
+        titleSelectedStatus: newVal,
+      },
+      () => {
+        // 处理筛选条件数据
+        const filters = this.handlerFilters(this.selectedValues);
+      }
+    );
   };
 
   // 处理筛选器选中后有无条件的高亮状态
@@ -109,6 +115,35 @@ export default class Filter extends Component {
       }
     });
     return newTitleSelectedStatus;
+  };
+
+  // 处理后台需要的筛选条件数据
+  handlerFilters = (selectedValues) => {
+    // 筛选条件数据
+    const { area, mode, price, more } = selectedValues;
+    // 组装数据
+    const filters = {};
+    // area | subway
+    let areaKey = area[0],
+      aval;
+    if (area.length === 2) {
+      aval = area[1];
+    } else {
+      if (area[2] !== "null") {
+        aval = area[2];
+      } else {
+        aval = area[1];
+      }
+    }
+    filters[areaKey] = aval;
+    // mode
+    filters.rentType = mode[0];
+    // price
+    filters.price = price[0];
+    // more
+    filters.more = more.join(",");
+    console.log("filters:", filters);
+    return filters;
   };
 
   // 渲染选择器 前三个菜单对应的内容
