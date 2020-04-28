@@ -65,8 +65,11 @@ export default class Filter extends Component {
 
   // 关闭前三个筛选器内容和遮罩层
   onCancel = () => {
+    // 处理高亮
+    let newVal = this.handlerSel();
     this.setState({
       openType: "",
+      titleSelectedStatus: newVal,
     });
   };
 
@@ -75,8 +78,11 @@ export default class Filter extends Component {
     const { openType } = this.state;
     // 存储当前选中筛选数据
     this.selectedValues[openType] = value;
+    // 处理高亮
+    let newVal = this.handlerSel();
     this.setState({
       openType: "",
+      titleSelectedStatus: newVal,
     });
   };
 
@@ -121,6 +127,27 @@ export default class Filter extends Component {
     }
   };
 
+  // 处理筛选器选中后有无条件的高亮状态
+  handlerSel = () => {
+    // 创建新的标题选中状态的对象
+    const newTitleSelectedStatus = {};
+    // 遍历selectedValues
+    Object.keys(this.selectedValues).forEach((key) => {
+      // 获取当前过滤器选中值 数组
+      let cur = this.selectedValues[key];
+      // 判断数组的值
+      if (key === "area" && (cur[1] !== "null" || cur[0] === "subway")) {
+        newTitleSelectedStatus[key] = true;
+      } else if (key === "mode" && cur[0] !== "null") {
+        newTitleSelectedStatus[key] = true;
+      } else if (key === "price" && cur[0] !== "null") {
+        newTitleSelectedStatus[key] = true;
+      } else {
+        newTitleSelectedStatus[key] = false;
+      }
+    });
+    return newTitleSelectedStatus;
+  };
   render() {
     return (
       <div className={styles.root}>
