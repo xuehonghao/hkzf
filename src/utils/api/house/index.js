@@ -21,4 +21,9 @@ const getHouses = (cityId, filters, start, end) => {
   });
 };
 
-export { getHousesCondition, getHouses };
+// 查询房屋具体信息
+const getHousesById = (id) => {
+  return api.get(`/houses/${id}`);
+};
+
+export { getHousesCondition, getHouses, getHousesById };

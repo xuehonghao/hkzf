@@ -23,7 +23,7 @@ function App() {
           <Route path="/home" component={Home} />
           <Route path="/map" component={Map} />
           <Route path="/cityList" component={CityList} />
-          <Route path="/detail" component={HouseDetail} />
+          <Route path="/detail/:id" component={HouseDetail} />
           <Route component={Fn404} />
         </Switch>
       </div>
