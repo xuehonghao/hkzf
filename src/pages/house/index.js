@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Flex } from "antd-mobile";
+import { Flex, Toast } from "antd-mobile";
 
 import Filter from "./components/Filter";
 // 导入样式
@@ -13,6 +13,7 @@ import "react-virtualized/styles.css";
 import { List, AutoSizer, InfiniteLoader } from "react-virtualized";
 
 import HouseItem from "../../components/HouseItem";
+import NoHouse from "../../components/NoHouse";
 
 export default class HouseList extends React.Component {
   state = {
@@ -39,9 +40,13 @@ export default class HouseList extends React.Component {
   // 获取房屋列表
   getHouseList = async () => {
     const res = await getHouses(this.cityId, this.filters, 1, 20);
+    const { list, count } = res.data;
+    if (count !== 0) {
+      Toast.success(`获取到${count}条房源信息`, 1);
+    }
     this.setState({
-      list: [...res.data.list],
-      count: res.data.count,
+      list,
+      count,
     });
     // console.log(res);
   };
@@ -73,7 +78,9 @@ export default class HouseList extends React.Component {
   renderHouseList = () => {
     const { list, count } = this.state;
 
-    return (
+    return count === 0 ? (
+      <NoHouse>没有更多房源，请换个搜索条件吧</NoHouse>
+    ) : (
       <InfiniteLoader
         isRowLoaded={this.isRowLoaded}
         loadMoreRows={this.loadMoreRows}
