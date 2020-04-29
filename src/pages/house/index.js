@@ -71,7 +71,16 @@ export default class HouseList extends React.Component {
     }
     // 处理图片地址
     item.src = BaseURL + item.houseImg;
-    return <HouseItem {...item} key={key} style={style} />;
+    return (
+      <HouseItem
+        {...item}
+        key={key}
+        style={style}
+        onClick={() => {
+          this.props.history.push("/detail");
+        }}
+      />
+    );
   };
 
   // 渲染列表

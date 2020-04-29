@@ -12,6 +12,7 @@ import Home from "./pages/home";
 import CityList from "./pages/cityList";
 import Fn404 from "./pages/fn404";
 import Map from "./pages/map";
+import HouseDetail from "./components/HouseDetail";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/home" component={Home} />
           <Route path="/map" component={Map} />
           <Route path="/cityList" component={CityList} />
+          <Route path="/detail" component={HouseDetail} />
           <Route component={Fn404} />
         </Switch>
       </div>
