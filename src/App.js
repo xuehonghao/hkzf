@@ -13,7 +13,7 @@ import CityList from "./pages/cityList";
 import Fn404 from "./pages/fn404";
 import Map from "./pages/map";
 import HouseDetail from "./components/HouseDetail";
-import Login from "./components/Login";
+import Login from "./pages/Login";
 
 function App() {
   return (
