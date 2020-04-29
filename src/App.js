@@ -13,6 +13,7 @@ import CityList from "./pages/cityList";
 import Fn404 from "./pages/fn404";
 import Map from "./pages/map";
 import HouseDetail from "./components/HouseDetail";
+import Login from "./components/Login";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/map" component={Map} />
           <Route path="/cityList" component={CityList} />
           <Route path="/detail/:id" component={HouseDetail} />
+          <Route path="/login" component={Login} />
           <Route component={Fn404} />
         </Switch>
       </div>
