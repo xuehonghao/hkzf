@@ -20,6 +20,9 @@ const removeToken = () => {
   localStorage.removeItem(USER_TOKEN);
 };
 
+// 是否登录判断：boolean
+const isAuth = () => !!getToken();
+
 // 设置当前城市
 const setSession = (data) => {
   sessionStorage.setItem(CURR_CITY, JSON.stringify(data));
@@ -82,4 +85,12 @@ const getCurrCity = async () => {
   }
 };
 
-export { getCurrCity, setSession, CURR_CITY, setToken, getToken, removeToken };
+export {
+  getCurrCity,
+  setSession,
+  CURR_CITY,
+  setToken,
+  getToken,
+  removeToken,
+  isAuth,
+};
