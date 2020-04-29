@@ -1,20 +1,38 @@
 import { getCityInfo } from "./api/area";
 
-const CURR_CITY = "currCity";
+const CURR_CITY = "currCity"; // 当前城市
+const USER_TOKEN = "token";
 
-// 设置
+// 设置Token
+const setToken = (data) => {
+  localStorage.setItem(USER_TOKEN, data);
+};
+
+// 获取Token
+const getToken = () => {
+  let token = localStorage.getItem(USER_TOKEN);
+  if (!!token) return null;
+  return token;
+};
+
+// 删除Token
+const removeToken = () => {
+  localStorage.removeItem(USER_TOKEN);
+};
+
+// 设置当前城市
 const setSession = (data) => {
   sessionStorage.setItem(CURR_CITY, JSON.stringify(data));
 };
 
-// 获取
+// 获取当前城市
 const getSession = () => {
   let currCity = sessionStorage.getItem(CURR_CITY);
-  if (!currCity) return null;
+  if (!!currCity) return null;
   return JSON.parse(currCity);
 };
 
-// 删除
+// 删除当前城市
 const removeSession = () => {
   sessionStorage.removeItem(CURR_CITY);
 };
@@ -64,4 +82,4 @@ const getCurrCity = async () => {
   }
 };
 
-export { getCurrCity, setSession, CURR_CITY };
+export { getCurrCity, setSession, CURR_CITY, setToken, getToken, removeToken };
