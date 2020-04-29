@@ -57,7 +57,13 @@ export default class HouseList extends React.Component {
     const { list } = this.state;
     const item = list[index];
     // 处理暂时没有加载到数据情况
-    if (!item) return null;
+    if (!item) {
+      return (
+        <div style={style} key={key}>
+          <p className={styles.loading}></p>
+        </div>
+      );
+    }
     // 处理图片地址
     item.src = BaseURL + item.houseImg;
     return <HouseItem {...item} key={key} style={style} />;
@@ -65,14 +71,14 @@ export default class HouseList extends React.Component {
 
   // 渲染列表
   renderHouseList = () => {
-    const { list } = this.state;
+    const { list, count } = this.state;
 
     return (
       <InfiniteLoader
         isRowLoaded={this.isRowLoaded}
         loadMoreRows={this.loadMoreRows}
         // 远程数据总条数
-        rowCount={this.state.count}
+        rowCount={count}
       >
         {({ onRowsRendered, registerChild }) => (
           <AutoSizer>
@@ -80,7 +86,7 @@ export default class HouseList extends React.Component {
               <List
                 className={styles.houseList}
                 height={height}
-                rowCount={list.length}
+                rowCount={count}
                 rowHeight={130}
                 rowRenderer={this.renderHouseItem}
                 onRowsRendered={onRowsRendered}
