@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Flex, WingBlank, WhiteSpace, NavBar, Toast } from "antd-mobile";
+import { Flex, WingBlank, WhiteSpace, NavBar, Toast, Icon } from "antd-mobile";
 import { Link } from "react-router-dom";
 import styles from "./index.module.css";
 import { login } from "../../utils/api/user";
@@ -28,7 +28,13 @@ class Login extends Component {
     return (
       <div className={styles.root}>
         {/* 顶部导航 */}
-        <NavBar mode="light">账号登录</NavBar>
+        <NavBar
+          mode="light"
+          icon={<Icon type="left" />}
+          onLeftClick={() => this.props.history.goBack()}
+        >
+          账号登录
+        </NavBar>
         <WhiteSpace size="xl" />
 
         {/* 登录表单 */}

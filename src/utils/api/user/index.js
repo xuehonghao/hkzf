@@ -17,4 +17,10 @@ const getUserInfo = () => {
 const logout = () => {
   return api.post("/user/logout");
 };
-export { login, getUserInfo, logout };
+
+// 房屋是否收藏
+const getHousesFav = (id) => {
+  return api.get(`/user/favorites/${id}`);
+};
+
+export { login, getUserInfo, logout, getHousesFav };

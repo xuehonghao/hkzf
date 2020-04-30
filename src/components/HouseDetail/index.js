@@ -6,6 +6,8 @@ import HousePackage from "../HousePackage";
 
 import { getHousesById } from "../../utils/api/house";
 import { BaseURL as BASE_URL } from "../../utils/axios";
+import { isAuth } from "../../utils/currentCity";
+import { getHousesFav } from "../../utils/api/user";
 // 猜你喜欢
 const recommendHouses = [
   {
@@ -103,7 +105,24 @@ export default class HouseDetail extends Component {
 
     // 获取房屋数据
     this.getHouseDetail();
+    // 检测房子是否收藏过
+    this.checkHouseFav();
   }
+
+  // 检查房子是否收藏过
+  checkHouseFav = async () => {
+    if (!isAuth()) return;
+    const { id } = this.props.match.params;
+    let res = await getHousesFav(id);
+    console.log(res);
+    if (res.status === 200) {
+      this.setState({
+        isFavorite: res.data.isFavorite,
+      });
+    } else {
+      // 如果token过期，提示用户是否重新登录
+    }
+  };
 
   /* 
       收藏房源：
