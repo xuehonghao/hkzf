@@ -11,7 +11,6 @@ const setToken = (data) => {
 // 获取Token
 const getToken = () => {
   let token = localStorage.getItem(USER_TOKEN);
-  if (!!token) return null;
   return token;
 };
 
@@ -31,7 +30,7 @@ const setSession = (data) => {
 // 获取当前城市
 const getSession = () => {
   let currCity = sessionStorage.getItem(CURR_CITY);
-  if (!!currCity) return null;
+  if (!!!currCity) return null;
   return JSON.parse(currCity);
 };
 
