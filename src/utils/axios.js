@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Toast } from "antd-mobile";
+import { getToken } from "./currentCity";
 
 // 基地址
 const BaseURL = "https://api-haoke-web.itheima.net";
@@ -11,6 +12,14 @@ const api = axios.create({
 // Add a request interceptor  请求拦截器
 api.interceptors.request.use(
   function (config) {
+    const { url, headers } = config;
+    const list = ["/user/registered", "/user/login"]; // 白名单
+
+    if (url.startsWith("/user") && !list.includes(url)) {
+      // 设置公共请求头
+      headers.authorization = getToken();
+    }
+
     // 动画加载
     Toast.loading("加载中...", 0);
     // Do something before request is sent

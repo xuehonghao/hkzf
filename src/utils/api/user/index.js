@@ -9,16 +9,12 @@ const login = (username, password) => {
 };
 
 // 获取用户的信息资料
-const getUserInfo = (token) => {
-  return api.get("/user", {
-    headers: { authorization: token },
-  });
+const getUserInfo = () => {
+  return api.get("/user");
 };
 
 // 用户退出登录
-const logout = (token) => {
-  return api.post("/user/logout", null, {
-    headers: { authorization: token },
-  });
+const logout = () => {
+  return api.post("/user/logout");
 };
 export { login, getUserInfo, logout };

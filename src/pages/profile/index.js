@@ -6,7 +6,7 @@ import { Modal, Grid, Button, Toast } from "antd-mobile";
 import { BaseURL as BASE_URL } from "../../utils/axios";
 
 import styles from "./index.module.css";
-import { isAuth, getToken, removeToken } from "../../utils/currentCity";
+import { isAuth, removeToken } from "../../utils/currentCity";
 import { getUserInfo, logout } from "../../utils/api/user";
 
 // 菜单数据
@@ -43,9 +43,7 @@ export default class Profile extends Component {
     const { isLogin } = this.state;
     // debugger;
     if (isLogin) {
-      let token = getToken();
-
-      let res = await getUserInfo(token);
+      let res = await getUserInfo();
       console.log(res);
       if (res.status === 200) {
         // 处理图片路径
@@ -66,7 +64,7 @@ export default class Profile extends Component {
       {
         text: "确定",
         onPress: async () => {
-          let res = await logout(getToken());
+          let res = await logout();
           console.log(res);
           if (res.status === 200) {
             removeToken();
