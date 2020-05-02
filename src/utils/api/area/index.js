@@ -23,4 +23,14 @@ const getHotCity = () => {
   return api.get("/area/hot");
 };
 
-export { getCityInfo, getCities, getHotCity };
+// 小区关键词查询
+const getCommunity = (name, id) => {
+  return api.get("/area/community", {
+    params: {
+      name,
+      id,
+    },
+  });
+};
+
+export { getCityInfo, getCities, getHotCity, getCommunity };

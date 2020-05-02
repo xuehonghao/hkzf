@@ -5,6 +5,7 @@ import { SearchBar } from "antd-mobile";
 import { getCurrCity } from "../../../utils/currentCity";
 
 import styles from "./index.module.css";
+import { getCommunity } from "../../../utils/api/area";
 
 export default class Search extends Component {
   state = {
@@ -40,9 +41,20 @@ export default class Search extends Component {
         searchTxt: "",
       });
     }
-    this.setState({
-      searchTxt: val,
-    });
+    this.setState(
+      {
+        searchTxt: val,
+      },
+      async () => {
+        // 接口调用查询小区
+        let { status, data } = await getCommunity(val, this.cityId);
+        if (status === 200) {
+          this.setState({
+            tipsList: data,
+          });
+        }
+      }
+    );
   };
 
   render() {
