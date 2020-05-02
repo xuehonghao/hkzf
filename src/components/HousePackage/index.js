@@ -1,60 +1,60 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 
-import styles from './index.module.css'
+import styles from "./index.module.css";
 
 // 所有房屋配套数据和图标
 const HOUSE_PACKAGE = [
   {
     id: 1,
-    name: '衣柜',
-    icon: 'icon-wardrobe'
+    name: "衣柜",
+    icon: "icon-wardrobe",
   },
   {
     id: 2,
-    name: '洗衣机',
-    icon: 'icon-wash'
+    name: "洗衣机",
+    icon: "icon-wash",
   },
   {
     id: 3,
-    name: '空调',
-    icon: 'icon-air'
+    name: "空调",
+    icon: "icon-air",
   },
   {
     id: 4,
-    name: '天然气',
-    icon: 'icon-gas'
+    name: "天然气",
+    icon: "icon-gas",
   },
   {
     id: 5,
-    name: '冰箱',
-    icon: 'icon-ref'
+    name: "冰箱",
+    icon: "icon-ref",
   },
   {
     id: 6,
-    name: '暖气',
-    icon: 'icon-Heat'
+    name: "暖气",
+    icon: "icon-Heat",
   },
   {
     id: 7,
-    name: '电视',
-    icon: 'icon-vid'
+    name: "电视",
+    icon: "icon-vid",
   },
   {
     id: 8,
-    name: '热水器',
-    icon: 'icon-heater'
+    name: "热水器",
+    icon: "icon-heater",
   },
   {
     id: 9,
-    name: '宽带',
-    icon: 'icon-broadband'
+    name: "宽带",
+    icon: "icon-broadband",
   },
   {
     id: 10,
-    name: '沙发',
-    icon: 'icon-sofa'
-  }
-]
+    name: "沙发",
+    icon: "icon-sofa",
+  },
+];
 
 /* 
   该组件的两种功能：
@@ -66,57 +66,69 @@ const HOUSE_PACKAGE = [
 export default class HousePackage extends Component {
   state = {
     // 选中名称
-    selectedNames: []
+    selectedNames: [],
+  };
+
+  componentDidMount() {
+    // debugger
+    console.log("====================================");
+    console.log(this.props);
+    console.log("====================================");
+    if (!!this.props.data) {
+      this.setState({
+        selectedNames: this.props.data.split("|"),
+      });
+    }
   }
 
   // 根据id切换选中状态
-  toggleSelect = name => {
-    const { selectedNames } = this.state
-    let newSelectedNames
+  toggleSelect = (name) => {
+    const { selectedNames } = this.state;
+    let newSelectedNames;
 
     // 判断该项是否选中
     if (selectedNames.indexOf(name) > -1) {
       // 选中：从数组中删除选中项，也就是保留未选中项
-      newSelectedNames = selectedNames.filter(item => item !== name)
+      newSelectedNames = selectedNames.filter((item) => item !== name);
     } else {
       // 未选中：添加到数组中
-      newSelectedNames = [...selectedNames, name]
+      newSelectedNames = [...selectedNames, name];
     }
 
     // 传递给父组件
-    this.props.onSelect(newSelectedNames)
+    this.props.onSelect(newSelectedNames);
 
     this.setState({
-      selectedNames: newSelectedNames
-    })
-  }
+      selectedNames: newSelectedNames,
+    });
+  };
 
   // 渲染列表项
   renderItems() {
-    const { selectedNames } = this.state
+    const { selectedNames } = this.state;
     // select 的值为 true 表示 选择房屋配置；false 表示仅展示房屋列表
     // list 表示要展示的列表项
-    const { select, list } = this.props
+    const { select, list } = this.props;
 
-    let data
+    let data;
     // 如果传了 select 表示：选择 房屋配置
     // 如果没传 select 表示：展示 房屋配置 列表
     if (select) {
-      data = HOUSE_PACKAGE
+      data = HOUSE_PACKAGE;
     } else {
       // 展示房屋配置列表
       // 从所有的列表项中过滤出要展示的（list）列表项
-      data = HOUSE_PACKAGE.filter(v => list.includes(v.name))
+      data = HOUSE_PACKAGE.filter((v) => list.includes(v.name));
     }
 
-    return data.map(item => {
+    return data.map((item) => {
       // 判断该项是否选中
-      const isSelected = selectedNames.indexOf(item.name) > -1
+      const isSelected = selectedNames.indexOf(item.name) > -1;
 
       return (
         <li
           key={item.id}
-          className={[styles.item, isSelected ? styles.active : ''].join(' ')}
+          className={[styles.item, isSelected ? styles.active : ""].join(" ")}
           onClick={select && (() => this.toggleSelect(item.name))}
         >
           <p>
@@ -124,11 +136,11 @@ export default class HousePackage extends Component {
           </p>
           {item.name}
         </li>
-      )
-    })
+      );
+    });
   }
 
   render() {
-    return <ul className={styles.root}>{this.renderItems()}</ul>
+    return <ul className={styles.root}>{this.renderItems()}</ul>;
   }
 }

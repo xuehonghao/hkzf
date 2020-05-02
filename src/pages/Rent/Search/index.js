@@ -15,6 +15,9 @@ export default class Search extends Component {
   };
 
   async componentDidMount() {
+    console.log("====================================");
+    console.log(this.props);
+    console.log("====================================");
     // 获取城市ID
     const { value } = await getCurrCity();
     this.cityId = value;
@@ -33,6 +36,7 @@ export default class Search extends Component {
             pathname: "/rent/add",
             id: item.community,
             name: item.communityName,
+            data: this.props.location.data,
           });
         }}
       >
@@ -79,7 +83,12 @@ export default class Search extends Component {
           value={searchTxt}
           showCancelButton={true}
           onChange={this.handlerSearch}
-          onCancel={() => history.replace("/rent/add")}
+          onCancel={() =>
+            this.props.history.replace({
+              pathname: "/rent/add",
+              data: this.props.location.data,
+            })
+          }
         />
 
         {/* 搜索提示列表 */}

@@ -81,8 +81,14 @@ export default class RentAdd extends Component {
   }
 
   componentDidMount() {
+    const { id, name, data } = this.props.location;
+    // 获取之前的数据
+    if (!!data) {
+      this.setState({
+        ...data,
+      });
+    }
     // 设置小区名称
-    const { id, name } = this.props.location;
     if (!!id && !!name) {
       const com = {};
       com.name = name;
@@ -104,6 +110,31 @@ export default class RentAdd extends Component {
         text: "继续编辑",
       },
     ]);
+  };
+
+  // 获取表单输入值
+  getValue = (name, v) => {
+    console.log(name, v);
+    this.setState({
+      [name]: v,
+    });
+  };
+
+  // 获取房屋图片
+  // files: Object, operationType: string, index: number
+  getImg = (files, operationType, index) => {
+    console.log(files, operationType, index);
+    this.setState({
+      tempSlides: files,
+    });
+  };
+
+  // 选择配套
+  selPack = (selNames) => {
+    console.log(selNames);
+    this.setState({
+      supporting: selNames.join("|"),
+    });
   };
 
   render() {
@@ -140,7 +171,9 @@ export default class RentAdd extends Component {
           <Item
             extra={community.name || "请选择小区名称"}
             arrow="horizontal"
-            onClick={() => history.replace("/rent/search")}
+            onClick={() =>
+              history.replace({ pathname: "/rent/search", data: this.state })
+            }
           >
             小区名称
           </Item>
@@ -149,6 +182,7 @@ export default class RentAdd extends Component {
             extra="￥/月"
             type="number"
             value={price}
+            onChange={(v) => this.getValue("price", v)}
           >
             租&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;金
           </InputItem>
@@ -157,19 +191,35 @@ export default class RentAdd extends Component {
             extra="㎡"
             type="number"
             value={size}
+            onChange={(v) => this.getValue("size", v)}
           >
             建筑面积
           </InputItem>
-          <Picker data={roomTypeData} value={[roomType]} cols={1}>
+          <Picker
+            data={roomTypeData}
+            value={[roomType]}
+            cols={1}
+            onChange={(v) => this.getValue("roomType", v[0])}
+          >
             <Item arrow="horizontal">
               户&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型
             </Item>
           </Picker>
 
-          <Picker data={floorData} value={[floor]} cols={1}>
+          <Picker
+            data={floorData}
+            value={[floor]}
+            cols={1}
+            onChange={(v) => this.getValue("floor", v[0])}
+          >
             <Item arrow="horizontal">所在楼层</Item>
           </Picker>
-          <Picker data={orientedData} value={[oriented]} cols={1}>
+          <Picker
+            data={orientedData}
+            value={[oriented]}
+            cols={1}
+            onChange={(v) => this.getValue("oriented", v[0])}
+          >
             <Item arrow="horizontal">
               朝&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;向
             </Item>
@@ -184,6 +234,7 @@ export default class RentAdd extends Component {
           <InputItem
             placeholder="请输入标题（例如：整租 小区名 2室 5000元）"
             value={title}
+            onChange={(v) => this.getValue("title", v)}
           />
         </List>
 
@@ -196,6 +247,7 @@ export default class RentAdd extends Component {
             files={tempSlides}
             multiple={true}
             className={styles.imgpicker}
+            onChange={this.getImg}
           />
         </List>
 
@@ -204,7 +256,11 @@ export default class RentAdd extends Component {
           renderHeader={() => "房屋配置"}
           data-role="rent-list"
         >
-          <HousePackage select />
+          <HousePackage
+            select
+            onSelect={this.selPack}
+            data={this.props.location.data?.supporting}
+          />
         </List>
 
         <List
@@ -217,6 +273,7 @@ export default class RentAdd extends Component {
             placeholder="请输入房屋描述信息"
             autoHeight
             value={description}
+            onChange={(v) => this.getValue("description", v)}
           />
         </List>
 
