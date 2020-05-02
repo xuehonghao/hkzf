@@ -14,6 +14,9 @@ import Fn404 from "./pages/fn404";
 import Map from "./pages/map";
 import HouseDetail from "./components/HouseDetail";
 import Login from "./pages/Login";
+import Rent from "./pages/Rent";
+import RentAdd from "./pages/Rent/Add";
+import RentSearch from "./pages/Rent/Search";
 
 function App() {
   return (
@@ -26,6 +29,9 @@ function App() {
           <Route path="/cityList" component={CityList} />
           <Route path="/detail/:id" component={HouseDetail} />
           <Route path="/login" component={Login} />
+          <Route path="/rent" exact component={Rent} />
+          <Route path="/rent/add" component={RentAdd} />
+          <Route path="/rent/search" component={RentSearch} />
           <Route component={Fn404} />
         </Switch>
       </div>

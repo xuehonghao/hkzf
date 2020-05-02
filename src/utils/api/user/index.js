@@ -33,4 +33,17 @@ const addFav = (id) => {
   return api.post(`/user/favorites/${id}`);
 };
 
-export { login, getUserInfo, logout, getHousesFav, delFav, addFav };
+// 查看已发布房源列表
+const getUserHouses = () => {
+  return api.get("/user/houses");
+};
+
+export {
+  login,
+  getUserInfo,
+  logout,
+  getHousesFav,
+  delFav,
+  addFav,
+  getUserHouses,
+};
