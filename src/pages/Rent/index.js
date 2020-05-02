@@ -12,12 +12,6 @@ import { BaseURL as BASE_URL } from "../../utils/axios";
 
 import { getUserHouses } from "../../utils/api/user/index";
 
-// 定义用户发布房源的API
-// 获取已发布房源
-// export const getUserHouses = () => {
-//   return axios.get('/user/houses')
-// }
-
 export default class Rent extends Component {
   state = {
     // 出租房屋列表

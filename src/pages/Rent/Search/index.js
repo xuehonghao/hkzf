@@ -30,6 +30,21 @@ export default class Search extends Component {
     ));
   };
 
+  // 处理搜索
+  handlerSearch = (v) => {
+    // 去空格
+    let val = v.trim();
+    // 处理空的情况
+    if (val.length === 0) {
+      return this.setState({
+        searchTxt: "",
+      });
+    }
+    this.setState({
+      searchTxt: val,
+    });
+  };
+
   render() {
     const { history } = this.props;
     const { searchTxt } = this.state;
@@ -41,6 +56,7 @@ export default class Search extends Component {
           placeholder="请输入小区或地址"
           value={searchTxt}
           showCancelButton={true}
+          onChange={this.handlerSearch}
           onCancel={() => history.replace("/rent/add")}
         />
 
