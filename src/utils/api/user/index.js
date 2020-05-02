@@ -23,4 +23,14 @@ const getHousesFav = (id) => {
   return api.get(`/user/favorites/${id}`);
 };
 
-export { login, getUserInfo, logout, getHousesFav };
+// 删除收藏
+const delFav = (id) => {
+  return api.delete(`/user/favorites/${id}`);
+};
+
+// 添加收藏
+const addFav = (id) => {
+  return api.post(`/user/favorites/${id}`);
+};
+
+export { login, getUserInfo, logout, getHousesFav, delFav, addFav };

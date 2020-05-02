@@ -106,12 +106,16 @@ export default withFormik({
     const { username, password } = values;
     const res = await login(username, password);
     const { status, data, description } = res;
-    const { history } = formikBag.props;
+    const { history, location } = formikBag.props;
     if (status === 200) {
       // 把token存到本地
       setToken(data.token);
       Toast.success(description, 2);
-      history.push("/");
+      if (!!location.backUrl) {
+        history.replace(location.backUrl);
+      } else {
+        history.replace("/");
+      }
     } else {
       Toast.fail(description);
     }

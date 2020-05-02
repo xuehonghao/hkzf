@@ -82,7 +82,7 @@ export default class Profile extends Component {
 
   // 渲染用户信息
   renderUser() {
-    const { history } = this.props;
+    const { history, location } = this.props;
     const {
       userInfo: { nickname, avatar },
     } = this.state;
@@ -121,7 +121,12 @@ export default class Profile extends Component {
                   type="primary"
                   size="small"
                   inline
-                  onClick={() => history.push("/login")}
+                  onClick={() =>
+                    history.push({
+                      pathname: "/login",
+                      backUrl: location.pathname,
+                    })
+                  }
                 >
                   去登录
                 </Button>
