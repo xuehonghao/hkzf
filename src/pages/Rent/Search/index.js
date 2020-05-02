@@ -25,7 +25,17 @@ export default class Search extends Component {
     const { tipsList } = this.state;
 
     return tipsList.map((item) => (
-      <li key={item.community} className={styles.tip}>
+      <li
+        key={item.community}
+        className={styles.tip}
+        onClick={() => {
+          this.props.history.replace({
+            pathname: "/rent/add",
+            id: item.community,
+            name: item.communityName,
+          });
+        }}
+      >
         {item.communityName}
       </li>
     ));
