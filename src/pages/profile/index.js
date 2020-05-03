@@ -52,6 +52,9 @@ export default class Profile extends Component {
           userInfo: res.data,
         });
       } else {
+        this.setState({
+          isLogin: false,
+        });
         Toast.info(res.description);
       }
     }
