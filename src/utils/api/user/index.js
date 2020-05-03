@@ -38,6 +38,13 @@ const getUserHouses = () => {
   return api.get("/user/houses");
 };
 
+// 发布房源
+const pubHouse = (body) => {
+  return api.post("/user/houses", {
+    ...body,
+  });
+};
+
 export {
   login,
   getUserInfo,
@@ -46,4 +53,5 @@ export {
   delFav,
   addFav,
   getUserHouses,
+  pubHouse,
 };
