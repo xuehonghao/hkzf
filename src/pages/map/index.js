@@ -5,6 +5,7 @@ import { NavBar, Icon } from "antd-mobile";
 import "./index.scss";
 
 import { getCurrCity } from "../../utils/currentCity";
+import styles from "./index.module.css";
 
 class index extends Component {
   componentDidMount() {
@@ -21,6 +22,7 @@ class index extends Component {
     const { value, label } = await getCurrCity();
     // 创建地址解析器实例
     let myGeo = new BMap.Geocoder();
+
     // 将地址解析结果显示在地图上，并调整地图视野
     myGeo.getPoint(
       null,
@@ -31,6 +33,31 @@ class index extends Component {
           // 添加控件
           map.addControl(new BMap.NavigationControl());
           map.addControl(new BMap.ScaleControl());
+
+          // 创建文本覆盖物
+          const opts = {
+            position: point, // 指定文本标注所在的地理位置
+            offset: new BMap.Size(0, 0), // 设置文本偏移量
+          };
+          const label = new BMap.Label(null, opts);
+          label.setContent(
+            `
+              <div class="${styles.bubble}">
+                <p class="${styles.bubbleName}">浦东新区</p>
+                <p>388套</p>
+              </div>
+            `
+          );
+          label.setStyle({
+            border: "none",
+          });
+          // 添加点击事件
+          label.addEventListener("click", () => {
+            console.log("====================================");
+            console.log("覆盖物被点击了", point);
+            console.log("====================================");
+          });
+          map.addOverlay(label);
         }
       },
       label
