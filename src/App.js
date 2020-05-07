@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 // import logo from './logo.svg';
 import {
   HashRouter as Router,
@@ -8,32 +8,34 @@ import {
 } from "react-router-dom";
 import "./App.scss";
 
-import Home from "./pages/home";
-import CityList from "./pages/cityList";
-import Fn404 from "./pages/fn404";
-import Map from "./pages/map";
-import HouseDetail from "./components/HouseDetail";
-import Login from "./pages/Login";
-import Rent from "./pages/Rent";
-import RentAdd from "./pages/Rent/Add";
-import RentSearch from "./pages/Rent/Search";
+const Home = React.lazy(() => import("./pages/home"));
+const CityList = React.lazy(() => import("./pages/cityList"));
+const Fn404 = React.lazy(() => import("./pages/fn404"));
+const Map = React.lazy(() => import("./pages/map"));
+const HouseDetail = React.lazy(() => import("./components/HouseDetail"));
+const Login = React.lazy(() => import("./pages/Login"));
+const Rent = React.lazy(() => import("./pages/Rent"));
+const RentAdd = React.lazy(() => import("./pages/Rent/Add"));
+const RentSearch = React.lazy(() => import("./pages/Rent/Search"));
 
 function App() {
   return (
     <Router>
       <div className="App">
-        <Switch>
-          <Redirect from="/" exact to="/home" />
-          <Route path="/home" component={Home} />
-          <Route path="/map" component={Map} />
-          <Route path="/cityList" component={CityList} />
-          <Route path="/detail/:id" component={HouseDetail} />
-          <Route path="/login" component={Login} />
-          <Route path="/rent" exact component={Rent} />
-          <Route path="/rent/add" component={RentAdd} />
-          <Route path="/rent/search" component={RentSearch} />
-          <Route component={Fn404} />
-        </Switch>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Switch>
+            <Redirect from="/" exact to="/home" />
+            <Route path="/home" component={Home} />
+            <Route path="/map" component={Map} />
+            <Route path="/cityList" component={CityList} />
+            <Route path="/detail/:id" component={HouseDetail} />
+            <Route path="/login" component={Login} />
+            <Route path="/rent" exact component={Rent} />
+            <Route path="/rent/add" component={RentAdd} />
+            <Route path="/rent/search" component={RentSearch} />
+            <Route component={Fn404} />
+          </Switch>
+        </Suspense>
       </div>
     </Router>
   );
