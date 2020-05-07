@@ -72,7 +72,7 @@ export default class Search extends Component {
   };
 
   render() {
-    const { history } = this.props;
+    // const { history } = this.props;
     const { searchTxt } = this.state;
 
     return (

@@ -86,7 +86,7 @@ export default class HouseList extends React.Component {
 
   // 渲染列表
   renderHouseList = () => {
-    const { list, count } = this.state;
+    const { count } = this.state;
 
     return count === 0 ? (
       <NoHouse>没有更多房源，请换个搜索条件吧</NoHouse>

@@ -51,7 +51,7 @@ class index extends Component {
     }
 
     // 遍历所有城市，进行分类整理
-    res.data.map((item) => {
+    res.data.forEach((item) => {
       let head = item.pinyin.slice(0, 1); //首字母
 
       //如果包含首字母(属性)，追加；如果没有，则设置数组，并填入城市对象
