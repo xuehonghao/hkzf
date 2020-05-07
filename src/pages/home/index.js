@@ -2,10 +2,6 @@ import React, { Component } from "react";
 
 import { Route } from "react-router-dom";
 
-import Index from "../index";
-import House from "../house";
-import Profile from "../profile";
-
 // 引入TabBar选项卡组件
 import { TabBar } from "antd-mobile";
 
@@ -14,6 +10,10 @@ import "./index.scss";
 
 // 引入常量
 import { tabBarList } from "../../utils/homeConfig";
+
+const Index = React.lazy(() => import("../index"));
+const House = React.lazy(() => import("../house"));
+const Profile = React.lazy(() => import("../profile"));
 
 class index extends Component {
   state = {

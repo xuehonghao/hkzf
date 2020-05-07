@@ -21,8 +21,8 @@ const RentSearch = React.lazy(() => import("./pages/Rent/Search"));
 function App() {
   return (
     <Router>
-      <div className="App">
-        <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<div>Loading...</div>}>
+        <div className="App">
           <Switch>
             <Redirect from="/" exact to="/home" />
             <Route path="/home" component={Home} />
@@ -35,8 +35,8 @@ function App() {
             <Route path="/rent/search" component={RentSearch} />
             <Route component={Fn404} />
           </Switch>
-        </Suspense>
-      </div>
+        </div>
+      </Suspense>
     </Router>
   );
 }

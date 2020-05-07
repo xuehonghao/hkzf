@@ -46,7 +46,7 @@ const navs = [
   {
     id: 4,
     img: Nav4,
-    title: "去出租",
+    title: "发布房源",
     path: "/rent/add",
   },
 ];
