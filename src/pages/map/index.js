@@ -102,7 +102,8 @@ class index extends Component {
       border: "none",
     });
     // 添加点击事件
-    label.addEventListener("click", () => {
+    label.addEventListener("click", (e) => {
+      this.moveToCenter(e);
       this.handlerHouseList(value);
     });
     this.map.addOverlay(label);
@@ -219,6 +220,14 @@ class index extends Component {
         </div>
       </div>
     );
+  };
+
+  // 移动地图到当前小区位置
+  moveToCenter = (e) => {
+    let { clientX, clientY } = e.changedTouches[0];
+    const x = window.innerWidth / 2 - clientX,
+      y = (window.innerHeight - 330) / 2 - clientY;
+    this.map.panBy(x, y);
   };
 
   render() {
