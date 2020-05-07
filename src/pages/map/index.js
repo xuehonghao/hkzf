@@ -8,8 +8,15 @@ import { getCurrCity } from "../../utils/currentCity";
 import styles from "./index.module.css";
 import { getMapHouses } from "../../utils/api/area";
 import { getHouses } from "../../utils/api/house";
+import HouseItem from "../../components/HouseItem";
+import { BaseURL as Base_URL } from "../../utils/axios";
 
 class index extends Component {
+  state = {
+    list: [],
+    isShowList: false,
+  };
+
   componentDidMount() {
     // 初始化地图
     this.initMap();
@@ -171,9 +178,47 @@ class index extends Component {
   // 调用之前定义的根据过滤条件获取房源列表方法，传入cityId
   handlerHouseList = async (id) => {
     let res = await getHouses(id);
-    console.log("====================================");
-    console.log(res);
-    console.log("====================================");
+    if (res.status === 200) {
+      this.setState({
+        list: res.data.list,
+        isShowList: true,
+      });
+    }
+  };
+
+  // 渲染小区下房屋列表
+  renderHouseList = () => {
+    return (
+      <div
+        className={[
+          styles.houseList,
+          this.state.isShowList ? styles.show : "",
+        ].join(" ")}
+      >
+        <div className={styles.titleWrap}>
+          <h1 className={styles.listTitle}>房屋列表</h1>
+          <a className={styles.titleMore} href="/home/house">
+            更多房源
+          </a>
+        </div>
+        <div className={styles.houseItems}>
+          {/* 房屋结构 */}
+          {this.state.list.map((item) => (
+            <HouseItem
+              onClick={() =>
+                this.props.history.push(`/detail/${item.houseCode}`)
+              }
+              key={item.houseCode}
+              src={Base_URL + item.houseImg}
+              title={item.title}
+              desc={item.desc}
+              tags={item.tags}
+              price={item.price}
+            />
+          ))}
+        </div>
+      </div>
+    );
   };
 
   render() {
@@ -189,6 +234,7 @@ class index extends Component {
           地图找房
         </NavBar>
         <div id="container"></div>
+        {this.renderHouseList()}
       </>
     );
   }
