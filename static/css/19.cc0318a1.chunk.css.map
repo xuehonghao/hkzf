@@ -1,0 +1,1 @@
+{"version":3,"sources":["index.scss"],"names":[],"mappings":"AAAA,QACE,cAAe,CACf,UAAW,CACX,QAAS,CAHX,kBAKI,cAAe,CAChB,MAID,WAAY","file":"19.cc0318a1.chunk.css","sourcesContent":[".tabBar {\n  position: fixed;\n  width: 100%;\n  bottom: 0;\n  .iconfont {\n    font-size: 24px;\n  }\n}\n\n.home {\n  height: 100%;\n}\n"]}
