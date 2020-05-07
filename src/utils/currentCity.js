@@ -35,9 +35,9 @@ const getSession = () => {
 };
 
 // 删除当前城市
-const removeSession = () => {
-  sessionStorage.removeItem(CURR_CITY);
-};
+// const removeSession = () => {
+//   sessionStorage.removeItem(CURR_CITY);
+// };
 
 // 百度获取
 const getCurrCityByMap = () => {

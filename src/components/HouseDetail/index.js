@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Carousel, Flex, Modal, Toast, NavBar, Icon } from "antd-mobile";
+import { Carousel, Flex, Modal, NavBar, Icon } from "antd-mobile";
 import HouseItem from "../HouseItem";
 import styles from "./index.module.css";
 import HousePackage from "../HousePackage";

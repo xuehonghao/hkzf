@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { getCities, getHotCity } from "../../utils/api/area";
-import { getCurrCity, setSession, CURR_CITY } from "../../utils/currentCity";
+import { getCurrCity, setSession } from "../../utils/currentCity";
 import "react-virtualized/styles.css";
 import { List, AutoSizer } from "react-virtualized";
 import { NavBar, Icon, Toast } from "antd-mobile";
