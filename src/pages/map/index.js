@@ -27,6 +27,13 @@ class index extends Component {
     this.BMap = window.BMap;
     // 创建地图实例
     this.map = new this.BMap.Map("container");
+    this.map.addEventListener("movestart", () => {
+      if (this.state.isShowList) {
+        this.setState({
+          isShowList: false,
+        });
+      }
+    });
     // 获取定位城市
     const { value, label } = await getCurrCity();
     // 创建地址解析器实例
