@@ -7,6 +7,7 @@ import "./index.scss";
 import { getCurrCity } from "../../utils/currentCity";
 import styles from "./index.module.css";
 import { getMapHouses } from "../../utils/api/area";
+import { getHouses } from "../../utils/api/house";
 
 class index extends Component {
   componentDidMount() {
@@ -95,9 +96,7 @@ class index extends Component {
     });
     // 添加点击事件
     label.addEventListener("click", () => {
-      console.log("====================================");
-      console.log("点击小区");
-      console.log("====================================");
+      this.handlerHouseList(value);
     });
     this.map.addOverlay(label);
   };
@@ -166,6 +165,15 @@ class index extends Component {
       type,
       nextLevel,
     };
+  };
+
+  // 获取小区下的房源列表
+  // 调用之前定义的根据过滤条件获取房源列表方法，传入cityId
+  handlerHouseList = async (id) => {
+    let res = await getHouses(id);
+    console.log("====================================");
+    console.log(res);
+    console.log("====================================");
   };
 
   render() {
