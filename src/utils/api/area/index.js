@@ -33,4 +33,13 @@ const getCommunity = (name, id) => {
   });
 };
 
-export { getCityInfo, getCities, getHotCity, getCommunity };
+// 查询房源数据
+const getMapHouses = (id) => {
+  return api.get("/area/map", {
+    params: {
+      id,
+    },
+  });
+};
+
+export { getCityInfo, getCities, getHotCity, getCommunity, getMapHouses };
