@@ -85,6 +85,33 @@ class index extends Component {
     }
   };
 
+  // 计算要绘制的覆盖物类型和下一个缩放级别
+  // 区 -> 11  , 范围：>=10 <12
+  // 镇 -> 13  , 范围：>=12 <14
+  // 小区 -> 15, 范围：>=14 <16
+  // 提供地图缩放级别和覆盖物类型
+  getTypeAndZoom = () => {
+    let type, nextLevel;
+    // 获取小区缩放级别
+    const currZoom = this.map.getZoom(); // 获取当前缩放级别， 项目中默认缩放级别为：11
+    if (currZoom >= 10 && currZoom < 12) {
+      // 区
+      type = "circle";
+      nextLevel = 13;
+    } else if (currZoom >= 12 && currZoom < 14) {
+      // 镇
+      type = "circle";
+      nextLevel = 15;
+    } else if (currZoom >= 14 && currZoom < 16) {
+      // 小区
+      type = "react";
+    }
+    return {
+      type,
+      nextLevel,
+    };
+  };
+
   render() {
     return (
       <>
