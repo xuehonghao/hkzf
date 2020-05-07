@@ -46,43 +46,99 @@ class index extends Component {
   // 封装渲染覆盖物
   renderOverlays = async (id) => {
     let { status, data } = await getMapHouses(id);
+    const { type, nextLevel } = this.getTypeAndZoom();
     if (status === 200) {
       data.forEach((item) => {
-        const {
-          coord: { longitude, latitude },
-          label: areaName,
-          count,
-          value,
-        } = item;
-        // 转换地理位置坐标
-        const ipoint = new this.BMap.Point(longitude, latitude);
-        // 绘制覆盖物
-        const opts = {
-          position: ipoint, // 指定文本标注所在的地理位置
-          offset: new this.BMap.Size(0, 0), // 设置文本偏移量
-        };
-        const label = new this.BMap.Label(null, opts);
-        label.setContent(
-          `
-            <div class="${styles.bubble}">
-              <p class="${styles.bubbleName}">${areaName}</p>
-              <p>${count}套</p>
-            </div>
-          `
-        );
-        label.setStyle({
-          border: "none",
-        });
-        // 添加点击事件
-        label.addEventListener("click", () => {
-          // 设置显示下一区域的位置和缩放级别
-          this.map.centerAndZoom(ipoint, 13);
-          // 清除第一层覆盖物
-          setTimeout(() => this.map.clearOverlays());
-        });
-        this.map.addOverlay(label);
+        this.createOverlays(type, nextLevel, item);
       });
     }
+  };
+
+  // 根据当前覆盖物的类型，决定调用哪个方法创建覆盖物
+  createOverlays = (type, nextLevel, item) => {
+    if (type === "rect") {
+      // 小区
+      this.createRect(item);
+    } else {
+      // 区和镇
+      this.createCircle(nextLevel, item);
+    }
+  };
+
+  // 小区  长方形的
+  createRect = (item) => {
+    const {
+      coord: { longitude, latitude },
+      label: areaName,
+      count,
+      value,
+    } = item;
+    // 转换地理位置坐标
+    const ipoint = new this.BMap.Point(longitude, latitude);
+    // 绘制覆盖物
+    const opts = {
+      position: ipoint, // 指定文本标注所在的地理位置
+      offset: new this.BMap.Size(-50, -20), // 设置文本偏移量
+    };
+    const label = new this.BMap.Label(null, opts);
+    label.setContent(
+      `
+      <div class="${styles.rect}">
+        <span class="${styles.housename}">${areaName}</span>
+        <span class="${styles.housenum}">${count}</span>
+        <i class="${styles.arrow}"></i>
+      </div>
+      `
+    );
+    label.setStyle({
+      border: "none",
+    });
+    // 添加点击事件
+    label.addEventListener("click", () => {
+      console.log("====================================");
+      console.log("点击小区");
+      console.log("====================================");
+    });
+    this.map.addOverlay(label);
+  };
+
+  // 区和镇  圆形的
+  createCircle = (nextLevel, item) => {
+    const {
+      coord: { longitude, latitude },
+      label: areaName,
+      count,
+      value,
+    } = item;
+    // 转换地理位置坐标
+    const ipoint = new this.BMap.Point(longitude, latitude);
+    // 绘制覆盖物
+    const opts = {
+      position: ipoint, // 指定文本标注所在的地理位置
+      offset: new this.BMap.Size(0, 0), // 设置文本偏移量
+    };
+    const label = new this.BMap.Label(null, opts);
+    label.setContent(
+      `
+        <div class="${styles.bubble}">
+          <p class="${styles.bubbleName}">${areaName}</p>
+          <p>${count}套</p>
+        </div>
+      `
+    );
+    label.setStyle({
+      border: "none",
+    });
+    // 添加点击事件
+    label.addEventListener("click", () => {
+      // 设置显示下一区域的位置和缩放级别
+      this.map.centerAndZoom(ipoint, nextLevel);
+      // 渲染下一层覆盖物
+      this.renderOverlays(value);
+      // 清除第一层覆盖物
+      setTimeout(() => this.map.clearOverlays());
+    });
+    this.map.addOverlay(label);
   };
 
   // 计算要绘制的覆盖物类型和下一个缩放级别
@@ -104,7 +160,7 @@ class index extends Component {
       nextLevel = 15;
     } else if (currZoom >= 14 && currZoom < 16) {
       // 小区
-      type = "react";
+      type = "rect";
     }
     return {
       type,
